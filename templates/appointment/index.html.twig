@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Le salon K - RDV{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+{% endblock %}
+{% block body %}
+    {% include('header.html.twig') %}
+
+    <!-- Page Content-->
+    <section class="py-5">
+        <div class="container px-5">
+            <h1 class="fw-bolder fs-5 mb-4">Choisissez la date et l'heure de votre rendez-vous</h1>
+            <div class="card border-0 shadow rounded-3 overflow-hidden">
+                <div class="card-body p-0">
+                    <div class="row gx-0">
+                        <div class="col-lg-6 col-xl-5 py-lg-5">
+                            <div class="p-4 p-md-5">
+                                <div class="badge bg-primary bg-gradient rounded-pill mb-2">Choisissez une date</div>
+                                <form>
+                                    <div class="row form-group">
+                                        <div class="col-sm-12">
+                                            <input type="hidden" class="form-control" id="datepicker"
+                                                   style="display: none">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-xl-5 py-lg-5">
+                            <div class="p-4 p-md-5" id="slots">
+                                <div class="badge bg-primary bg-gradient rounded-pill mb-2">Choisissez créneau horaire
+                                </div>
+                                <div class="rows">
+                                    <div class="col-sm">
+                                        {% if avaibles is defined %}
+                                            {% for slot in avaibles %}
+                                                <input type="radio" class="btn-check" name="options"
+                                                       id="option-{{ slot }}"
+                                                       autocomplete="off" value="{{ slot }}">
+                                                <label class="btn btn-outline-primary"
+                                                       for="option-{{ slot }}">{{ slot }}</label>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+{% endblock %}
+{% block javascripts %}
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        $(document).ready(function () {
+            $("#datepicker").flatpickr({
+                inline: true,
+                minDate: "{{ "now"|date("Y/m/d") }}",
+                locale: 'fr',
+            });
+
+            $('#datepicker').on('change', function () {
+                const date = this.value;
+                $.ajax({
+                    url: '{{ path('app_appointment_list') }}',
+                    type: 'POST',
+                    data: date,
+                    dataType: 'json',
+                    success: function (results) {
+                        $('#slots').empty();
+                        $.each(results.data, function (key, slot) {
+                            $("#slots").append(
+                                '<input type="radio" class="btn-check" name="options" id="option-' + slot + '" autocomplete="off" value="' + slot + '">' +
+                                '<label class="btn btn-outline-primary" for="option-' + slot + '">' + slot + '</label>'
+                            );
+                        });
+                    }
+                });
+
+            });
+        });
+
+    </script>
+
+{% endblock %}
