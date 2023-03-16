@@ -28,6 +28,9 @@ class Appointment
     #[ORM\Column(length: 50)]
     private ?string $end = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $slot = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -77,6 +80,18 @@ class Appointment
     public function setEnd(string $end): self
     {
         $this->end = $end;
+
+        return $this;
+    }
+
+    public function getSlot(): ?string
+    {
+        return $this->slot;
+    }
+
+    public function setSlot(string $slot): self
+    {
+        $this->slot = $slot;
 
         return $this;
     }

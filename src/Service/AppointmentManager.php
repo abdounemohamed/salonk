@@ -2,12 +2,25 @@
 
 namespace App\Service;
 
+
+use App\Repository\AppointmentRepository;
+use Exception;
+
 class AppointmentManager
 {
+    public function __construct
+    (
+        private AppointmentRepository $appointmentRepository
+    )
+    {
+    }
+
     /**
+     * @param string $day
      * @return array
+     * @throws Exception
      */
-    public function getAviableSlots(): array
+    public function getAvailableSlots(string $day): array
     {
         // Define the start and end times of business hours
         $startTime = strtotime('10:00');
@@ -24,7 +37,33 @@ class AppointmentManager
             $endTimeStr = date('H:i', ($time + $reservationDuration)); // format end time as "hh:mm"
             $availableSlots[] =  $startTimeStr.'-'.$endTimeStr; // add reservation slot to array
         }
-        return $availableSlots;
+        $notAvaibleSlots = $this->getUsedSlots($day);
+
+        return  array_diff($availableSlots, $notAvaibleSlots);
+    }
+
+    /**
+     * @param string $day
+     * @return array
+     * @throws Exception
+     */
+    public function getUsedSlots(string $day): array
+    {
+        $data = $this->appointmentRepository->findBy(['date' => new \DateTime($day)]);
+        $results = [];
+        foreach ($data as $slot){
+            if (isset($results[$slot->getSlot()])){
+                $results[$slot->getSlot()]++;
+            }else{
+                $results[$slot->getSlot()] = 1;
+            }
+        }
+
+        $filtedData = array_filter($results, function($value) {
+            return $value >= 2;
+        });
+
+        return array_keys($filtedData);
     }
 
 }

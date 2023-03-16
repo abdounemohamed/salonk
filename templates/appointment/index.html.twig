@@ -11,46 +11,79 @@
     <!-- Page Content-->
     <section class="py-5">
         <div class="container px-5">
-            <h1 class="fw-bolder fs-5 mb-4">Choisissez la date et l'heure de votre rendez-vous</h1>
-            <div class="card border-0 shadow rounded-3 overflow-hidden">
-                <div class="card-body p-0">
-                    <div class="row gx-0">
-                        <div class="col-lg-6 col-xl-5 py-lg-5">
-                            <div class="p-4 p-md-5">
-                                <div class="badge bg-primary bg-gradient rounded-pill mb-2">Choisissez une date</div>
-                                <form>
-                                    <div class="row form-group">
-                                        <div class="col-sm-12">
-                                            <input type="hidden" class="form-control" id="datepicker"
-                                                   style="display: none">
+            <form method="post">
+                <h1 class="fw-bolder fs-5 mb-4">Choisissez la date et l'heure de votre rendez-vous</h1>
+                <div class="card border-0 shadow rounded-3 overflow-hidden">
+                    <div class="card-body p-0">
+                        <div class="row gx-5">
+                            <div class="col-lg-4 mb-5">
+                                <div class="p-4 p-md-5">
+                                    <div class="badge bg-primary bg-gradient rounded-pill mb-2">Choisissez une date
+                                    </div>
+                                    <form>
+                                        <div class="row form-group">
+                                            <div class="col-sm-12">
+                                                <input type="hidden" class="form-control" id="datepicker" name="date"
+                                                       style="display: none">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 mb-5s">
+                                <div class="p-4 p-md-5" id="slots">
+                                    <div class="badge bg-primary bg-gradient rounded-pill mb-2">Choisissez créneau
+                                        horaire
+                                    </div>
+                                    <div class="col-sm">
+                                        <div class="overflow-auto" style="height: 300px">
+                                            {% if avaibles is defined %}
+                                                {% for slot in avaibles %}
+                                                    <input type="radio" class="btn-check w-250" name="slot"
+                                                           id="option-{{ slot }}" autocomplete="off"
+                                                           value="{{ slot }}">
+                                                    <label class="btn btn-outline-dark"
+                                                           for="option-{{ slot }}">{{ slot }}</label>
+                                                {% endfor %}
+                                            {% endif %}
                                         </div>
                                     </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 col-xl-5 py-lg-5">
-                            <div class="p-4 p-md-5" id="slots">
-                                <div class="badge bg-primary bg-gradient rounded-pill mb-2">Choisissez créneau horaire
                                 </div>
-                                <div class="rows">
-                                    <div class="col-sm">
-                                        {% if avaibles is defined %}
-                                            {% for slot in avaibles %}
-                                                <input type="radio" class="btn-check" name="options"
-                                                       id="option-{{ slot }}"
-                                                       autocomplete="off" value="{{ slot }}">
-                                                <label class="btn btn-outline-primary"
-                                                       for="option-{{ slot }}">{{ slot }}</label>
-                                            {% endfor %}
-                                        {% endif %}
+                            </div>
+                            <div class="col-lg-4 mb-5s">
+                                <div class="p-4 p-md-5" id="slots">
+                                    <div class="badge bg-primary bg-gradient rounded-pill mb-2">Mes informations</div>
+
+                                    <div class="row mb-4">
+                                        <div class="col">
+                                            <div class="form-outline">
+                                                <input type="text" id="form3Example1" class="form-control"
+                                                       name="lastname"/>
+                                                <label class="form-label" for="form3Example1">Nom </label>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-outline">
+                                                <input type="text" id="form3Example2" class="form-control"
+                                                       name="firstname"/>
+                                                <label class="form-label" for="form3Example2">Prénom</label>
+                                            </div>
+                                        </div>
                                     </div>
+
+                                    <!-- Email input -->
+                                    <div class="form-outline mb-4">
+                                        <input type="tel" id="form3Example3" class="form-control" name="phone"/>
+                                        <label class="form-label" for="form3Example3">Numéro de téléphone</label>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary btn-block mb-4">Réserver</button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </form>
         </div>
     </section>
 {% endblock %}
@@ -63,6 +96,7 @@
                 inline: true,
                 minDate: "{{ "now"|date("Y/m/d") }}",
                 locale: 'fr',
+                defaultDate: "{{ "now"|date("Y/m/d") }}",
             });
 
             $('#datepicker').on('change', function () {
@@ -70,14 +104,14 @@
                 $.ajax({
                     url: '{{ path('app_appointment_list') }}',
                     type: 'POST',
-                    data: date,
+                    data: { date : date },
                     dataType: 'json',
                     success: function (results) {
                         $('#slots').empty();
                         $.each(results.data, function (key, slot) {
                             $("#slots").append(
-                                '<input type="radio" class="btn-check" name="options" id="option-' + slot + '" autocomplete="off" value="' + slot + '">' +
-                                '<label class="btn btn-outline-primary" for="option-' + slot + '">' + slot + '</label>'
+                                '<input type="radio" class="btn-check" name="slot" id="option-' + slot + '" autocomplete="off" value="' + slot + '">' +
+                                '<label class="btn btn-outline-dark" for="option-' + slot + '">' + slot + '</label>'
                             );
                         });
                     }
