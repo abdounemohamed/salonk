@@ -1,0 +1,11 @@
+<script src="https://nosir.github.io/cleave.js/dist/cleave.min.js"></script>
+<script src="https://nosir.github.io/cleave.js/dist/cleave-phone.i18n.js"></script>
+<script>
+    //date formating
+    if ($('.phone').length) {
+        var cleave = new Cleave('.phone', {
+            phone: true,
+            phoneRegionCode: 'FR'
+        });
+    }
+</script>

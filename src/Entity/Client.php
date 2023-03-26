@@ -6,6 +6,7 @@ use App\Repository\ClientRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Validator as AppAssert;
 
 #[ORM\Entity(repositoryClass: ClientRepository::class)]
 class Client
@@ -22,6 +23,7 @@ class Client
     private ?string $lastname = null;
 
     #[ORM\Column(length: 255)]
+    #[AppAssert\Phone]
     private ?string $phone = null;
 
     #[ORM\Column]

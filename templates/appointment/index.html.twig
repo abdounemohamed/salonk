@@ -31,18 +31,21 @@
                                 </div>
                             </div>
                             <div class="col-lg-4 mb-5s">
-                                <div class="p-4 p-md-5" id="slots">
+                                <div class="p-4 p-md-5">
                                     <div class="badge bg-primary bg-gradient rounded-pill mb-2">Choisissez créneau
                                         horaire
                                     </div>
                                     <div class="col-sm">
-                                        <div class="overflow-auto" style="height: 300px">
+                                        <div id="no-appointments-alert" class="alert alert-danger d-none" role="alert">
+                                            Pas de rendez-vous disponibles pour cette date.
+                                        </div>
+                                        <div class="overflow-auto" style="height: 300px" id="slots">
                                             {% if avaibles is defined %}
                                                 {% for slot in avaibles %}
-                                                    <input type="radio" class="btn-check w-250" name="slot"
+                                                    <input type="radio" class="btn-check" name="slot"
                                                            id="option-{{ slot }}" autocomplete="off"
                                                            value="{{ slot }}">
-                                                    <label class="btn btn-outline-dark"
+                                                    <label class="btn btn-outline-dark" style="width: 100%"
                                                            for="option-{{ slot }}">{{ slot }}</label>
                                                 {% endfor %}
                                             {% endif %}
@@ -58,14 +61,14 @@
                                         <div class="col">
                                             <div class="form-outline">
                                                 <input type="text" id="form3Example1" class="form-control"
-                                                       name="lastname"/>
+                                                       name="lastname" required />
                                                 <label class="form-label" for="form3Example1">Nom </label>
                                             </div>
                                         </div>
                                         <div class="col">
                                             <div class="form-outline">
                                                 <input type="text" id="form3Example2" class="form-control"
-                                                       name="firstname"/>
+                                                       name="firstname" required/>
                                                 <label class="form-label" for="form3Example2">Prénom</label>
                                             </div>
                                         </div>
@@ -73,7 +76,7 @@
 
                                     <!-- Email input -->
                                     <div class="form-outline mb-4">
-                                        <input type="tel" id="form3Example3" class="form-control" name="phone"/>
+                                        <input type="tel" id="form3Example3" class="form-control phone" name="phone" required/>
                                         <label class="form-label" for="form3Example3">Numéro de téléphone</label>
                                     </div>
 
@@ -90,6 +93,8 @@
 {% block javascripts %}
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/fr.js"></script>
+    {{ include('_js_input_format.html.twig') }}
     <script>
         $(document).ready(function () {
             $("#datepicker").flatpickr({
@@ -97,6 +102,11 @@
                 minDate: "{{ "now"|date("Y/m/d") }}",
                 locale: 'fr',
                 defaultDate: "{{ "now"|date("Y/m/d") }}",
+                disable: [
+                    function(date) {
+                        return (date.getDay() === 0); // 0 pour dimanche
+                    }
+                ]
             });
 
             $('#datepicker').on('change', function () {
@@ -108,16 +118,24 @@
                     dataType: 'json',
                     success: function (results) {
                         $('#slots').empty();
-                        $.each(results.data, function (key, slot) {
-                            $("#slots").append(
-                                '<input type="radio" class="btn-check" name="slot" id="option-' + slot + '" autocomplete="off" value="' + slot + '">' +
-                                '<label class="btn btn-outline-dark" for="option-' + slot + '">' + slot + '</label>'
-                            );
-                        });
+                        if (results.data.length === 0) {
+                            $('#no-appointments-alert').removeClass('d-none');
+                        } else {
+                            $('#no-appointments-alert').addClass('d-none');
+                            $.each(results.data, function (key, slot) {
+                                $("#slots").append(
+                                    '<input type="radio" class="btn-check" name="slot" id="option-' + slot + '" autocomplete="off" value="' + slot + '">' +
+                                    '<label class="btn btn-outline-dark" style="width: 100%" for="option-' + slot + '">' + slot + '</label>'
+                                );
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(xhr.responseText);
                     }
                 });
-
             });
+
         });
 
     </script>

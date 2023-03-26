@@ -57,7 +57,7 @@ class AppointmentController extends AbstractController
             return $this->redirectToRoute('app_index', ['success' => true]);
         }
         $now = new \DateTime();
-        $avaibles = $appointmentManager->getAvailableSlots($now->format("Y-m-d"));
+        $avaibles = $appointmentManager->getAvailableSlots2($now->format("Y-m-d"));
 
         return $this->render('appointment/index.html.twig', [
             'avaibles' => $avaibles,
@@ -70,7 +70,7 @@ class AppointmentController extends AbstractController
     #[Route('/appointment/list', name: 'app_appointment_list')]
     public function getAppointmentsList(Request $request, AppointmentManager $appointmentManager): JsonResponse
     {
-       $avaibles = $appointmentManager->getAvailableSlots($request->get('date'));
+       $avaibles = $appointmentManager->getAvailableSlots2($request->get('date'));
        // get used appointment from
         //$appointmentManager->getUsedSlots($request->get('date'));
        return $this->json(["data" => $avaibles]);

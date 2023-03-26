@@ -63,4 +63,17 @@ class NotAvailableSlotsRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    /**
+     * @param string $date
+     * @return float|int|mixed|string
+     * @throws \Exception
+     */
+    public function findByDate(string $date): mixed
+    {
+        return $this->createQueryBuilder('n')
+            ->where('n.start <= :date')
+            ->andWhere('n.end >= :date')
+            ->setParameter('date', $date)
+            ->getQuery()->getResult();
+    }
 }
