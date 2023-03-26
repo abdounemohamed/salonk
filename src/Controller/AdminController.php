@@ -26,6 +26,14 @@ class AdminController extends AbstractController
         ]);
     }
 
+    #[Route('/agenda', name: 'admin_agenda')]
+    public function agenda(): Response
+    {
+        return $this->render('admin/agenda.html.twig', [
+            'data' => json_encode([]),
+        ]);
+    }
+
     #[Route('/availablity', name: 'admin_not_available_day')]
     public function AddNotAvailableDay(): Response
     {

@@ -14,13 +14,18 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class AppointmentController extends AbstractController
 {
-
+    /**
+     * @return Response
+     */
     #[Route('/', name: 'app_index')]
     public function app(): Response
     {
         return $this->render('app/index.html.twig', ['success' => false]);
     }
 
+    /**
+     * @return Response
+     */
     #[Route('/tarifs', name: 'app_pricing')]
     public function pricing(): Response
     {

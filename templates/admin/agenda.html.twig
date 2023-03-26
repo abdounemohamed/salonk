@@ -1,0 +1,240 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Calendrier{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        #calendar {
+            width: 95%;
+            margin: auto;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    {% include('admin/header.html.twig') %}
+    <div class="p-5 text-center bg-light">
+        <div id="calendar">
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"
+            integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js"
+            integrity="sha256-z82jYOK/utiAteR0z6FjIOQmdWzvxqXJ6wsXbGJkBwY=" crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function () {
+            let calendarElt = document.querySelector("#calendar");
+
+            let calendar = new FullCalendar.Calendar(calendarElt, {
+                initialView: 'timeGridWeek',
+                locale: 'fr',
+                timeZone: 'Europe/Paris',
+                headerToolbar: {
+                    start: 'prev,next today',
+                    center: 'title',
+                    end: 'dayGridMonth,timeGridWeek'
+                },
+                slotDuration: '00:15:00',
+                slotLabelInterval: 30,
+                slotMinTime: '10:00:00',
+                slotMaxTime: '19:00:00',
+                eventDisplay: 'block',
+                businessHours: {
+                    startTime: '10:00',
+                    endTime: '19:00',
+                    daysOfWeek: [1, 2, 3, 4, 5, 6]
+                },
+                slotEventOverlap: false,
+                visibleRange: {
+                    start: '09:00',
+                    end: '19:00'
+                },
+
+                eventSources: [
+                    {
+                        url: "{{ path('admin_events_all') }}",
+                        method: "POST",
+                    },
+                ],
+                //tooltip
+                eventDidMount: function (info) {
+                    let tooltip = new bootstrap.Tooltip(info.el, {
+                        title: info.event.extendedProps.description,
+                        placement: 'top',
+                        trigger: 'manual', // on passe trigger à "manual"
+                        container: 'body'
+                    });
+
+                    info.el.addEventListener('click', function() {
+                        tooltip.show(); // on affiche le tooltip au clic
+                    });
+
+                    info.el.addEventListener('mouseleave', function() {
+                        tooltip.hide(); // on cache le tooltip lorsque la souris quitte l'élément
+                    });
+                },
+
+                // add event and selectable
+                editable: true,
+                eventDrop: updateEvent,
+                selectable: true,
+                select: function (info) {
+                    // Créer le formulaire de sélection du type d'événement
+                    let form = document.createElement("form");
+                    form.classList.add("p-3");
+                    let typeSelect = document.createElement("select");
+                    typeSelect.id = "type-select";
+                    typeSelect.classList.add("form-select", "mb-3");
+                    typeSelect.innerHTML = `
+                            <option value="rdv">RDV</option>
+                            <option value="off">Congés</option>
+                        `;
+                    form.appendChild(typeSelect);
+
+                    // Ajouter les champs nom et téléphone
+                    let firstnameInput = document.createElement("input");
+                    firstnameInput.id = "name-input";
+                    firstnameInput.name = "firstname";
+                    firstnameInput.placeholder = "Nom";
+                    firstnameInput.classList.add("form-control", "mb-3");
+                    form.appendChild(firstnameInput);
+                    let lastnameInput = document.createElement("input");
+                    lastnameInput.id = "name-input";
+                    lastnameInput.name = "lastname";
+                    lastnameInput.placeholder = "Prénom";
+                    lastnameInput.classList.add("form-control", "mb-3");
+                    form.appendChild(lastnameInput);
+
+                    let phoneInput = document.createElement("input");
+                    phoneInput.id = "phone-input";
+                    phoneInput.name = "phone";
+                    phoneInput.placeholder = "Numéro de téléphone";
+                    phoneInput.classList.add("form-control", "mb-3");
+                    form.appendChild(phoneInput);
+
+                    // Ajouter le bouton "Ajouter"
+                    let submitButton = document.createElement("input");
+                    submitButton.type = "submit";
+                    submitButton.value = "Ajouter";
+                    submitButton.classList.add("btn", "btn-primary");
+                    form.appendChild(submitButton);
+                    //cancel btn
+                    let cancelButton = document.createElement("button");
+                    cancelButton.type = "button";
+                    cancelButton.textContent = "Annuler";
+                    cancelButton.className = "btn btn-secondary ms-2";
+                    form.appendChild(submitButton);
+                    form.appendChild(cancelButton);
+                    // Créer la pop-up avec le formulaire
+                    let popover = new bootstrap.Popover(info.jsEvent.target, {
+                        title: "Ajouter un événement",
+                        content: form,
+                        html: true,
+                        placement: "top",
+                        trigger: "manual"
+                    });
+
+                    // Afficher la pop-up
+                    popover.show();
+
+                    // Ajouter un événement pour soumettre le formulaire
+                    form.addEventListener("submit", function(event) {
+                        event.preventDefault();
+
+                        // Récupérer les valeurs des champs du formulaire
+                        let type = typeSelect.value;
+                        let lastname = lastnameInput.value;
+                        let firstname = lastnameInput.value;
+                        let phone = phoneInput.value;
+
+                        // Créer l'événement
+                        let eventData = {
+                            title: type,
+                            start: info.startStr,
+                            end: info.endStr,
+                            allDay: false, // set to false if you want to create a timed event
+                            lastname: lastname,
+                            firstname : firstname,
+                            phone: phone,
+                            type: type
+                        };
+                        // Envoyer les données au serveur avec fetch
+                        fetch('{{ path('admin_events_add') }}', {
+                            method: 'POST',
+                            body: JSON.stringify(eventData),
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Failed to add event');
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                console.log(data);
+                                // Masquer la pop-up
+                                popover.hide();
+                                // Recharger la page
+                                location.reload();
+                            })
+                            .catch(error => {
+                                console.error(error);
+                                // Afficher le message d'erreur dans la pop-up
+                                let errorElement = document.createElement('div');
+                                errorElement.classList.add('alert', 'alert-danger', 'mt-3');
+                                errorElement.textContent = 'Une erreur s\'est produite lors de l\'ajout de l\'événement.';
+                                form.appendChild(errorElement);
+                            });
+                    });
+
+                    // Ajouter un événement pour fermer la pop-up
+                    cancelButton.addEventListener("click", function(event) {
+                        event.preventDefault();
+                        popover.hide();
+                    });
+                }
+
+            });
+
+            function updateEvent(event) {
+                // update the event with the new dates
+                let eventData = {
+                    id: event.event.id,
+                    start: event.event.start.toISOString(),
+                    end: event.event.end ? event.event.end.toISOString() : null
+                };
+                fetch('{{ path('admin_events_edit') }}', {
+                    method: 'POST',
+                    body: JSON.stringify(eventData),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Failed to update event');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data);
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        event.revert();
+                    });
+            }
+
+            calendar.render();
+        });
+    </script>
+
+{% endblock %}
