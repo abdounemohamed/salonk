@@ -18,13 +18,14 @@
                         <div class="row gx-5">
                             <div class="col-lg-4 mb-5">
                                 <div class="p-4 p-md-5">
-                                    <div class="badge bg-primary bg-gradient rounded-pill mb-2">Choisissez une date
+                                    <div class="badge bg-primary bg-gradient rounded-pill mb-2">
+                                        <i class="fa-solid fa-calendar-days"></i>
+                                        Choisissez une date
                                     </div>
                                     <form>
                                         <div class="row form-group">
                                             <div class="col-sm-12">
-                                                <input type="hidden" class="form-control" id="datepicker" name="date"
-                                                       style="display: none">
+                                                <input type="hidden" class="form-control" id="datepicker" name="date" style="display: none">
                                             </div>
                                         </div>
                                     </form>
@@ -32,8 +33,9 @@
                             </div>
                             <div class="col-lg-4 mb-5s">
                                 <div class="p-4 p-md-5">
-                                    <div class="badge bg-primary bg-gradient rounded-pill mb-2">Choisissez créneau
-                                        horaire
+                                    <div class="badge bg-primary bg-gradient rounded-pill mb-2">
+                                        <i class="fa-solid fa-clock"></i>
+                                        Choisissez créneau horaire
                                     </div>
                                     <div class="col-sm">
                                         <div id="no-appointments-alert" class="alert alert-danger d-none" role="alert">
@@ -54,33 +56,32 @@
                                 </div>
                             </div>
                             <div class="col-lg-4 mb-5s">
-                                <div class="p-4 p-md-5" id="slots">
-                                    <div class="badge bg-primary bg-gradient rounded-pill mb-2">Mes informations</div>
+                                <div class="p-4 p-md-5">
+                                    <div class="badge bg-primary bg-gradient rounded-pill mb-2">
+                                        <i class="fa-solid fa-user"></i>
+                                        <span>Mes informations</span>
+                                    </div>
 
                                     <div class="row mb-4">
-                                        <div class="col">
-                                            <div class="form-outline">
-                                                <input type="text" id="form3Example1" class="form-control"
-                                                       name="lastname" required />
-                                                <label class="form-label" for="form3Example1">Nom </label>
-                                            </div>
+                                        <div class="form-outline">
+                                            <input type="text" id="lastname" class="form-control"
+                                                   name="lastname" required/>
+                                            <label class="form-label" for="form3Example1">Nom </label>
                                         </div>
-                                        <div class="col">
-                                            <div class="form-outline">
-                                                <input type="text" id="form3Example2" class="form-control"
-                                                       name="firstname" required/>
-                                                <label class="form-label" for="form3Example2">Prénom</label>
-                                            </div>
+                                        <div class="form-outline">
+                                            <input type="text" id="firstname" class="form-control"
+                                                   name="firstname" required/>
+                                            <label class="form-label" for="form3Example2">Prénom</label>
                                         </div>
                                     </div>
 
-                                    <!-- Email input -->
                                     <div class="form-outline mb-4">
-                                        <input type="tel" id="form3Example3" class="form-control phone" name="phone" required/>
+                                        <input type="tel" id="phone" class="form-control phone" name="phone"
+                                               required/>
                                         <label class="form-label" for="form3Example3">Numéro de téléphone</label>
                                     </div>
 
-                                    <button type="submit" class="btn btn-primary btn-block mb-4">Réserver</button>
+                                    <button type="submit" class="btn btn-primary btn-block mb-4" id="submit-btn" disabled>Réserver</button>
                                 </div>
                             </div>
                         </div>
@@ -89,6 +90,7 @@
             </form>
         </div>
     </section>
+    {% include('footer.html.twig') %}
 {% endblock %}
 {% block javascripts %}
     <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
@@ -103,7 +105,7 @@
                 locale: 'fr',
                 defaultDate: "{{ "now"|date("Y/m/d") }}",
                 disable: [
-                    function(date) {
+                    function (date) {
                         return (date.getDay() === 0); // 0 pour dimanche
                     }
                 ]
@@ -114,7 +116,7 @@
                 $.ajax({
                     url: '{{ path('app_appointment_list') }}',
                     type: 'POST',
-                    data: { date : date },
+                    data: {date: date},
                     dataType: 'json',
                     success: function (results) {
                         $('#slots').empty();
@@ -136,6 +138,33 @@
                 });
             });
 
+            //btn
+            $(document).ready(function() {
+                const inputName = $("#firstname");
+                const inputEmail = $("#lastname");
+                const inputPhone = $("#phone");
+                const submitBtn = $("#submit-btn");
+
+                function validateInputs() {
+                    if (
+                        inputName.val().trim() !== "" &&
+                        inputEmail.val().trim() !== "" &&
+                        inputPhone.val().trim() !== ""
+                    ) {
+                        submitBtn.prop("disabled", false);
+                        submitBtn.removeClass("btn-secondary");
+                        submitBtn.addClass("btn-primary");
+                    } else {
+                        submitBtn.prop("disabled", true);
+                        submitBtn.removeClass("btn-primary");
+                        submitBtn.addClass("btn-secondary");
+                    }
+                }
+
+                inputName.on("input", validateInputs);
+                inputEmail.on("input", validateInputs);
+                inputPhone.on("input", validateInputs);
+            });
         });
 
     </script>
