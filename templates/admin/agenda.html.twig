@@ -1,20 +1,12 @@
-{% extends 'base.html.twig' %}
-
+{% extends 'base_admin.html.twig' %}
 {% block title %}Calendrier{% endblock %}
 
-{% block stylesheets %}
-    <style>
-        #calendar {
-            width: 95%;
-            margin: auto;
-        }
-    </style>
-{% endblock %}
-
 {% block body %}
-    {% include('admin/header.html.twig') %}
-    <div class="p-5 text-center bg-light">
-        <div id="calendar">
+    {% include('admin/sidebar.html.twig') %}
+    <div class="page-wrapper">
+        <div class="p-5 text-center bg-light">
+            <div id="calendar">
+            </div>
         </div>
     </div>
 
@@ -71,11 +63,11 @@
                         container: 'body'
                     });
 
-                    info.el.addEventListener('click', function() {
+                    info.el.addEventListener('click', function () {
                         tooltip.show(); // on affiche le tooltip au clic
                     });
 
-                    info.el.addEventListener('mouseleave', function() {
+                    info.el.addEventListener('mouseleave', function () {
                         tooltip.hide(); // on cache le tooltip lorsque la souris quitte l'élément
                     });
                 },
@@ -144,7 +136,7 @@
                     popover.show();
 
                     // Ajouter un événement pour soumettre le formulaire
-                    form.addEventListener("submit", function(event) {
+                    form.addEventListener("submit", function (event) {
                         event.preventDefault();
 
                         // Récupérer les valeurs des champs du formulaire
@@ -160,7 +152,7 @@
                             end: info.endStr,
                             allDay: false, // set to false if you want to create a timed event
                             lastname: lastname,
-                            firstname : firstname,
+                            firstname: firstname,
                             phone: phone,
                             type: type
                         };
@@ -196,7 +188,7 @@
                     });
 
                     // Ajouter un événement pour fermer la pop-up
-                    cancelButton.addEventListener("click", function(event) {
+                    cancelButton.addEventListener("click", function (event) {
                         event.preventDefault();
                         popover.hide();
                     });

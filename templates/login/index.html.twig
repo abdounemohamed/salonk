@@ -1,5 +1,5 @@
 {# templates/login/agenda.html.twig #}
-{% extends 'base.html.twig' %}
+{% extends 'base_admin.html.twig' %}
 
 {# ... #}
 
@@ -7,57 +7,64 @@
     {% if error %}
         <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
-
-    <!-- Section: Design Block -->
-    <section class="">
-        <!-- Jumbotron -->
-        <div class="px-4 py-5 px-md-5 text-center text-lg-start" style="background-color: hsl(0, 0%, 96%)">
-            <div class="container">
-                <div class="row gx-lg-5 align-items-center">
-                    <div class="col-lg-6 mb-5 mb-lg-0">
-                        <h1 class="my-5 display-3 fw-bold ls-tight">
-                            Admin <br/>
-                            <span class="text-primary">Le Salon <strong>K</strong></span>
-                        </h1>
-                        <p style="color: hsl(217, 10%, 50.8%)">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                            Eveniet, itaque accusantium odio, soluta, corrupti aliquam
-                            quibusdam tempora at cupiditate quis eum maiores libero
-                            veritatis? Dicta facilis sint aliquid ipsum atque?
-                        </p>
-                    </div>
-
-                    <div class="col-lg-6 mb-5 mb-lg-0">
-                        <div class="card">
-                            <div class="card-body py-5 px-md-5">
-                                <form action="{{ path('app_login') }}" method="post">
-                                    <!-- Email input -->
-                                    <div class="form-outline mb-4">
-                                        <input type="email" id="form3Example3" name="_username" class="form-control"/>
-                                        <label class="form-label" for="form3Example3">Email</label>
+    <div class="page page-center">
+        <div class="container container-normal py-4">
+            <div class="row align-items-center g-4">
+                <div class="col-lg">
+                    <div class="container-tight">
+                        <div class="text-center mb-4">
+                            <a href="." class="navbar-brand navbar-brand-autodark"><img src="./static/logo.svg"
+                                                                                        height="36" alt=""></a>
+                        </div>
+                        <div class="card card-md">
+                            <div class="card-body">
+                                <h2 class="h2 text-center mb-4">Login to your account</h2>
+                                <form action="./" method="get" autocomplete="off" novalidate="">
+                                    <div class="mb-3">
+                                        <label class="form-label">Email address</label>
+                                        <input type="email" name="_username" class="form-control"
+                                               placeholder="your@email.com"
+                                               autocomplete="off">
                                     </div>
-
-                                    <!-- Password input -->
-                                    <div class="form-outline mb-4">
-                                        <input type="password" id="form3Example4" class="form-control"
-                                               name="_password"/>
-                                        <label class="form-label" for="form3Example4">Mot de passe</label>
+                                    <div class="mb-2">
+                                        <label class="form-label">
+                                            Password
+                                            <span class="form-label-description">
+                          <a href="./forgot-password.html">I forgot password</a>
+                        </span>
+                                        </label>
+                                        <div class="input-group input-group-flat">
+                                            <input type="password" name="_password" class="form-control"
+                                                   placeholder="Your password"
+                                                   autocomplete="off">
+                                            <span class="input-group-text">
+                          <a href="#" class="link-secondary" data-bs-toggle="tooltip" aria-label="Show password"
+                             data-bs-original-title="Show password"><!-- Download SVG icon from http://tabler-icons.io/i/eye -->
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24"
+                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                 stroke-linecap="round" stroke-linejoin="round"><path stroke="none" d="M0 0h24v24H0z"
+                                                                                      fill="none"></path><path
+                                        d="M12 12m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path><path
+                                        d="M22 12c-2.667 4.667 -6 7 -10 7s-7.333 -2.333 -10 -7c2.667 -4.667 6 -7 10 -7s7.333 2.333 10 7"></path></svg>
+                          </a>
+                        </span>
+                                        </div>
                                     </div>
-                                    {# If you want to control the URL the user is redirected to on success
+                                    <div class="form-footer">
+                                        {# If you want to control the URL the user is redirected to on success
                                     <input type="hidden" name="_target_path" value="/account"> #}
-                                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                                    <!-- Submit button -->
-                                    <button type="submit" class="btn btn-primary btn-block mb-4">
-                                        Connexion
-                                    </button>
+                                        <input type="hidden" name="_csrf_token"
+                                               value="{{ csrf_token('authenticate') }}">
+                                        <button type="submit" class="btn btn-primary w-100">Sign in</button>
+                                    </div>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="col-lg d-none d-lg-block">
+                </div>
             </div>
         </div>
-        <!-- Jumbotron -->
-    </section>
-    <!-- Section: Design Block -->
+    </div>
 {% endblock %}
