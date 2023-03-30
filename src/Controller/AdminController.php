@@ -6,7 +6,9 @@ use App\Entity\Appointment;
 use App\Entity\Client;
 use App\Entity\NotAvailableSlots;
 use App\Repository\AppointmentRepository;
+use App\Repository\ClientRepository;
 use App\Repository\NotAvailableSlotsRepository;
+use DateInterval;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,6 +33,14 @@ class AdminController extends AbstractController
     {
         return $this->render('admin/agenda.html.twig', [
             'data' => json_encode([]),
+        ]);
+    }
+
+    #[Route('/clients', name: 'admin_clients')]
+    public function clients(ClientRepository $clientRepository): Response
+    {
+        return $this->render('admin/clients.html.twig', [
+            'clients' => $clientRepository->findAll()
         ]);
     }
 
@@ -113,6 +123,7 @@ class AdminController extends AbstractController
             $start = new \DateTime($data->start);
 
             $end = new \DateTime($data->end);
+            $end->add(new DateInterval('PT15M'));
 
             $appointment->setDate($start);
             $appointment->setSlot($start->format('H:i') . '-' . $end->format('H:i'));
@@ -138,9 +149,25 @@ class AdminController extends AbstractController
         return $this->json(['ok' => false]);
     }
 
+    /**
+     * @throws Exception
+     */
     #[Route('/events/edit', name: 'admin_events_edit')]
-    public function editEvent(Request $request)
+    public function editEvent(Request $request, AppointmentRepository $appointmentRepository): JsonResponse
     {
-        dd($request);
+        $data = json_decode($request->getContent());
+        if ($data){
+            //get event
+            $event = $appointmentRepository->find($data->id);
+            $start = new \DateTime($data->start);
+            $end = new \DateTime($data->end);
+
+            $event->setSlot($start->format('H:i') . '-' . $end->format('H:i'));
+            $event->setStart($start->format('H:i'));
+            $event->setEnd($end->format('H:i'));
+            $appointmentRepository->save($event, true);
+            return $this->json(['ok' => true]);
+        }
+        return $this->json(['ok' => false]);
     }
 }
