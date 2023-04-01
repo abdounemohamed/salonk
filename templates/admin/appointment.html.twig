@@ -1,0 +1,293 @@
+{% extends 'base_admin.html.twig' %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+        .flatpickr-calendar{
+            margin: auto;
+        }
+
+    </style>
+{% endblock %}
+{% block body %}
+    <div class="page">
+        <div class="page-wrapper">
+            <!-- Page header -->
+            <header class="navbar navbar-expand-md navbar-light d-print-none">
+                <div class="container-xl">
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu" aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
+                        <a href=".">
+                            SALON
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-scissors-off" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                <path d="M4.432 4.442a3 3 0 1 0 4.114 4.146"></path>
+                                <path d="M6 17m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+                                <path d="M8.6 15.4l3.4 -3.4m2 -2l5 -5"></path>
+                                <path d="M3 3l18 18"></path>
+                            </svg>
+                        </a>
+                    </h1>
+                </div>
+            </header>
+
+            <div class="page-header d-print-none">
+                <div class="container-xl">
+                    <div class="row g-2 align-items-center">
+                        <div class="col">
+                            <h2 class="page-title">
+                                LA PLATEFORME DE RÉSERVATION EN LIGNE
+                            </h2>
+                            {% if app.request.get('error') is defined and  app.request.get('error') == "req"  %}
+                                <div class="alert alert-danger" role="alert">
+                                    Vous devez remplir tous les champs obligatoires
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Page body -->
+            <form method="post">
+                <div class="page-body">
+                    <div class="container-xl">
+                        <div class="row row-cards">
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h3 class="card-title">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                 class="icon icon-tabler icon-tabler-calendar-event" width="24"
+                                                 height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                                 fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M4 5m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z"></path>
+                                                <path d="M16 3l0 4"></path>
+                                                <path d="M8 3l0 4"></path>
+                                                <path d="M4 11l16 0"></path>
+                                                <path d="M8 15h2v2h-2z"></path>
+                                            </svg>
+                                            Choix de la date
+                                        </h3>
+                                        <form>
+                                            <input type="hidden" class="form-control" id="datepicker" name="date"
+                                                   style="display: none">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h3 class="card-title">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                 class="icon icon-tabler icon-tabler-clock-hour-4" width="24"
+                                                 height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"
+                                                 fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"></path>
+                                                <path d="M12 12l3 2"></path>
+                                                <path d="M12 7v5"></path>
+                                            </svg>
+                                            Choix de plage horaire
+                                        </h3>
+                                        <p class="card-subtitle">Date sélectionée : <span
+                                                    id="currentDate">{{ "now"|date("d/m/Y") }}</span></p>
+                                        <div id="no-appointments-alert"
+                                             class="alert alert-danger {% if avaibles|length == 0 %}{% else %}d-none{% endif %}"
+                                             role="alert">
+                                            Pas de rendez-vous disponibles pour cette date.
+                                        </div>
+
+                                        <div class="form-selectgroup">
+                                            <div class="mb-3">
+                                                <div class="form-selectgroup" id="slots">
+                                                    {% if avaibles is defined %}
+                                                        {% for slot in avaibles %}
+                                                            <label class="form-selectgroup-item">
+                                                                <input type="radio" name="slot" value="{{ slot }}"
+                                                                       class="form-selectgroup-input" id="slot">
+                                                                <span class="form-selectgroup-label">
+                                                                {{ slot }}</span>
+                                                            </label>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                 class="icon icon-tabler icon-tabler-login" width="24" height="24"
+                                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                                 stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2"></path>
+                                                <path d="M20 12h-13l3 -3m0 6l-3 -3"></path>
+                                            </svg>
+                                            Identification
+                                        </h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label class="form-label required">Nom</label>
+                                            <div>
+                                                <input type="text" class="form-control" name="firstname" id="firstname"
+                                                       placeholder="John">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label required">Prénom</label>
+                                            <div>
+                                                <input type="text" name="lastname" class="form-control" id="lastname"
+                                                       placeholder="Doe">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label required">Téléphone</label>
+                                            <div>
+                                                <input type="text" name="phone" id="phone" class="form-control phone"
+                                                       placeholder="07 98 65 42 10">
+                                            </div>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-check">
+                                                <input type="checkbox" class="form-check-input" id="cgu" name="cgu">
+                                                <span class="form-check-label">En cliquant ici vous acceptez les CGU de la plateforme le salon K </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer text-end">
+                                        <button type="submit" class="btn btn-primary" id="submit-btn" disabled>
+                                            Réserver
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <form class="card">
+                                    <div class="card-header">
+                                        <h3 class="card-title">
+                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                 class="icon icon-tabler icon-tabler-map-pin" width="24" height="24"
+                                                 viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none"
+                                                 stroke-linecap="round" stroke-linejoin="round">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                                                <path d="M9 11a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path>
+                                                <path d="M17.657 16.657l-4.243 4.243a2 2 0 0 1 -2.827 0l-4.244 -4.243a8 8 0 1 1 11.314 0z"></path>
+                                            </svg>
+                                            Où se situe le salon ?
+                                        </h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/fr.js"></script>
+
+
+    {{ include('_js_input_format.html.twig') }}
+    <script>
+        $(document).ready(function () {
+            $("#datepicker").flatpickr({
+                inline: true,
+                minDate: "{{ "now"|date("Y/m/d") }}",
+                locale: 'fr',
+                defaultDate: "{{ "now"|date("Y/m/d") }}",
+                disable: [
+                    function (date) {
+                        return (date.getDay() === 0); // 0 pour dimanche
+                    }
+                ]
+            });
+
+            $('#datepicker').on('change', function () {
+                const date = this.value;
+                const dateAr = date.split('-');
+                const currentDate = dateAr[2] + '/' + dateAr[1] + '/' + dateAr[0];
+
+                $('#currentDate').empty();
+                $('#currentDate').append(currentDate);
+
+                $.ajax({
+                    url: '{{ path('app_appointment_list') }}',
+                    type: 'POST',
+                    data: {date: date},
+                    dataType: 'json',
+                    success: function (results) {
+                        $('#slots').empty();
+                        if (results.data.length === 0) {
+                            $('#no-appointments-alert').removeClass('d-none');
+                        } else {
+                            $('#no-appointments-alert').addClass('d-none');
+                            $.each(results.data, function (key, slot) {
+                                $("#slots").append(
+                                    '<label class="form-selectgroup-item">' +
+                                    '<input type="radio" name="slot" value="' + slot + '" class="form-selectgroup-input">' +
+                                    '<span class="form-selectgroup-label">' + slot + '</span></label>'
+                                );
+                            });
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.log(xhr.responseText);
+                    }
+                });
+            });
+
+            //btn
+            const inputName = $("#firstname");
+            const inputEmail = $("#lastname");
+            const inputPhone = $("#phone");
+            const submitBtn = $("#submit-btn");
+            const cgu = $("#cgu");
+
+            function validateInputs() {
+                if (
+                    inputName.val().trim() !== "" &&
+                    inputEmail.val().trim() !== "" &&
+                    inputPhone.val().trim() !== "" &&
+                    cgu.prop("checked")
+                ) {
+                    submitBtn.prop("disabled", false);
+                    submitBtn.removeClass("btn-secondary");
+                    submitBtn.addClass("btn-primary");
+                } else {
+                    submitBtn.prop("disabled", true);
+                    submitBtn.removeClass("btn-primary");
+                    submitBtn.addClass("btn-secondary");
+                }
+            }
+
+            inputName.on("input", validateInputs);
+            inputEmail.on("input", validateInputs);
+            inputPhone.on("input", validateInputs);
+            cgu.on("input", validateInputs);
+
+        });
+
+        //map
+
+
+    </script>
+
+{% endblock %}

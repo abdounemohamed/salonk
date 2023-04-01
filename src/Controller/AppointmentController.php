@@ -39,6 +39,14 @@ class AppointmentController extends AbstractController
     public function index(AppointmentManager $appointmentManager, Request $request, EntityManagerInterface $entityManager): Response
     {
         if ($request->get('date') != null){
+            if (
+                $request->get('slot') == "" ||
+                $request->get('firstname') == ""||
+                $request->get('lastname') == "" ||
+                $request->get('cgu') == ""
+            ){
+                return $this->redirectToRoute("app_appointment", ["error" => "req"]);
+            }
             //TODO:: check if this client exists and have rdv
             //create new client
             $client = new Client();
@@ -57,14 +65,19 @@ class AppointmentController extends AbstractController
             $appointment->setEnd($slots[1]);
             $entityManager->persist($appointment);
             $entityManager->flush();
+            $dateToShow = new \DateTime($request->get('date'));
 
             //$this->addFlash('success', 'Votre rendez-vous a bien été pris en compte, 24h avant votre rendez-vous vous recevrez un sms de rappel');
-            return $this->redirectToRoute('app_index', ['success' => true]);
+            return $this->redirectToRoute('app_appointment_confirmed', [
+                'client' => $client->getId(),
+                'date' => $dateToShow->format('d-m-Y'),
+                'start' => $slots[0]
+            ]);
         }
         $now = new \DateTime();
         $avaibles = $appointmentManager->getAvailableSlots2($now->format("Y-m-d"));
 
-        return $this->render('appointment/index.html.twig', [
+        return $this->render('admin/appointment.html.twig', [
             'avaibles' => $avaibles,
         ]);
     }
@@ -80,5 +93,17 @@ class AppointmentController extends AbstractController
         //$appointmentManager->getUsedSlots($request->get('date'));
        return $this->json(["data" => $avaibles]);
     }
+
+    #[Route('/appointment/confirmed/{client}/{start}/{date}', name: 'app_appointment_confirmed')]
+    public function confirmed(Client $client, string $start , string $date): Response
+    {
+        return $this->render('admin/appointment_confirmed.html.twig', [
+            'client' => $client,
+            'start' => $start,
+            'date' => $date
+        ]);
+    }
+
+
 
 }

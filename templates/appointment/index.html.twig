@@ -1,9 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Le salon K - RDV{% endblock %}
+{% block title %}Le salon K - Prise de rdv{% endblock %}
 {% block stylesheets %}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
 
+    </style>
 {% endblock %}
 {% block body %}
     {% include('header.html.twig') %}
@@ -25,71 +27,96 @@
                                     <form>
                                         <div class="row form-group">
                                             <div class="col-sm-12">
-                                                <input type="hidden" class="form-control" id="datepicker" name="date" style="display: none">
+                                                <input type="hidden" class="form-control" id="datepicker" name="date"
+                                                       style="display: none">
                                             </div>
                                         </div>
                                     </form>
                                 </div>
                             </div>
-                            <div class="col-lg-4 mb-5s">
-                                <div class="p-4 p-md-5">
-                                    <div class="badge bg-primary bg-gradient rounded-pill mb-2">
-                                        <i class="fa-solid fa-clock"></i>
-                                        Choisissez créneau horaire
-                                    </div>
+                            <div class="col-lg-6 col-xl-7 bg-dark">
+                                <div class="bg-featured-blog">
                                     <div class="col-sm">
-                                        <div id="no-appointments-alert" class="alert alert-danger d-none" role="alert">
+                                        <div id="no-appointments-alert" class="alert alert-danger {% if avaibles|length == 0 %}{% else %}d-none{% endif %}" role="alert">
                                             Pas de rendez-vous disponibles pour cette date.
                                         </div>
-                                        <div class="overflow-auto" style="height: 300px" id="slots">
+                                        <div id="slots" class="slot-container">
                                             {% if avaibles is defined %}
                                                 {% for slot in avaibles %}
-                                                    <input type="radio" class="btn-check" name="slot"
-                                                           id="option-{{ slot }}" autocomplete="off"
-                                                           value="{{ slot }}">
-                                                    <label class="btn btn-outline-dark" style="width: 100%"
-                                                           for="option-{{ slot }}">{{ slot }}</label>
+                                                    <div class="slot-item">
+                                                        <input type="radio" class="btn-check" name="slot" id="option-{{ slot }}" autocomplete="off" value="{{ slot }}">
+                                                        <label class="btn btn-outline-light btn-lg px-4" for="option-{{ slot }}">{{ slot }}</label>
+                                                    </div>
                                                 {% endfor %}
                                             {% endif %}
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4 mb-5s">
-                                <div class="p-4 p-md-5">
-                                    <div class="badge bg-primary bg-gradient rounded-pill mb-2">
-                                        <i class="fa-solid fa-user"></i>
-                                        <span>Mes informations</span>
-                                    </div>
 
-                                    <div class="row mb-4">
-                                        <div class="form-outline">
-                                            <input type="text" id="lastname" class="form-control"
-                                                   name="lastname" required/>
-                                            <label class="form-label" for="form3Example1">Nom </label>
-                                        </div>
-                                        <div class="form-outline">
-                                            <input type="text" id="firstname" class="form-control"
-                                                   name="firstname" required/>
-                                            <label class="form-label" for="form3Example2">Prénom</label>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-outline mb-4">
-                                        <input type="tel" id="phone" class="form-control phone" name="phone"
-                                               required/>
-                                        <label class="form-label" for="form3Example3">Numéro de téléphone</label>
-                                    </div>
-
-                                    <button type="submit" class="btn btn-primary btn-block mb-4" id="submit-btn" disabled>Réserver</button>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
             </form>
         </div>
     </section>
+
+    <section class="py-5 bg-light">
+        <div class="container px-5">
+            <div class="row gx-5">
+                <div class="col-xl-8">
+                    <div class="p-4 p-md-5">
+                        <div class="badge bg-primary bg-gradient rounded-pill mb-2">
+                            <i class="fa-solid fa-user"></i>
+                            <span>Mes informations</span>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="form-outline">
+                                <input type="text" id="lastname" class="form-control"
+                                       name="lastname" required/>
+                                <label class="form-label" for="form3Example1">Nom </label>
+                            </div>
+                            <div class="form-outline">
+                                <input type="text" id="firstname" class="form-control"
+                                       name="firstname" required/>
+                                <label class="form-label" for="form3Example2">Prénom</label>
+                            </div>
+                        </div>
+                        <div class="form-outline mb-4">
+                            <input type="tel" id="phone" class="form-control phone" name="phone"
+                                   required/>
+                            <label class="form-label" for="form3Example3">Numéro de téléphone</label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-block mb-4" id="submit-btn" disabled>Réserver
+                        </button>
+                    </div>
+                </div>
+                <div class="col-xl-4">
+                    <div class="card border-0 h-100">
+                        <div class="card-body p-4">
+                            <div class="d-flex h-100 align-items-center justify-content-center">
+                                <div class="text-center">
+                                    <div class="h6 fw-bolder">Contact</div>
+                                    <p class="text-muted mb-4">
+                                        For press inquiries, email us at
+                                        <br/>
+                                        <a href="#!">press@domain.com</a>
+                                    </p>
+                                    <div class="h6 fw-bolder">Suiver nous</div>
+                                    <a class="fs-5 px-2 link-dark" href="#!"><i class="bi-twitter"></i></a>
+                                    <a class="fs-5 px-2 link-dark" href="#!"><i class="bi-facebook"></i></a>
+                                    <a class="fs-5 px-2 link-dark" href="#!"><i class="bi-linkedin"></i></a>
+                                    <a class="fs-5 px-2 link-dark" href="#!"><i class="bi-youtube"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     {% include('footer.html.twig') %}
 {% endblock %}
 {% block javascripts %}
@@ -126,8 +153,9 @@
                             $('#no-appointments-alert').addClass('d-none');
                             $.each(results.data, function (key, slot) {
                                 $("#slots").append(
+                                    '  <div class="slot-item">'+
                                     '<input type="radio" class="btn-check" name="slot" id="option-' + slot + '" autocomplete="off" value="' + slot + '">' +
-                                    '<label class="btn btn-outline-dark" style="width: 100%" for="option-' + slot + '">' + slot + '</label>'
+                                    '<label class="btn btn-outline-light btn-lg px-4"for="option-' + slot + '">' + slot + '</label></div>'
                                 );
                             });
                         }
@@ -139,7 +167,7 @@
             });
 
             //btn
-            $(document).ready(function() {
+            $(document).ready(function () {
                 const inputName = $("#firstname");
                 const inputEmail = $("#lastname");
                 const inputPhone = $("#phone");
