@@ -1,11 +1,51 @@
-{% extends 'base.html.twig' %}
+{% extends 'base_admin.html.twig' %}
 
-{% block title %}New Users{% endblock %}
+{% block title %}Le salon K - Admin{% endblock %}
 
 {% block body %}
-    <h1>Create new Users</h1>
 
-    {{ include('users/_form.html.twig') }}
+    <div class="page">
+        {% include '/admin/sidebar.html.twig' %}
 
-    <a href="{{ path('app_users_index') }}">back to list</a>
+        <div class="page-wrapper">
+            <div class="page-header d-print-none">
+                <div class="container-xl">
+                    <div class="row g-2 align-items-center">
+                        <div class="col">
+                            <h2 class="page-title">
+                                Ajouter un administrateur
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="page-body">
+                        <div class="container-xl">
+                            <div class="row row-cards">
+                                <div class="col-12">
+                                    {{ form_start(form) }}
+                                    <div class="card">
+                                        <div class="card-body">
+                                            {{ form_row(form.name, {'attr' : {'class' : 'form-control'}}) }}
+                                            {{ form_row(form.email, {'attr' : {'class' : 'form-control'}}) }}
+                                            {{ form_row(form.password, {'attr' : {'class' : 'form-control'}}) }}
+                                        </div>
+                                        <div class="card-footer">
+                                            <button type="submit" class="btn btn-primary">
+                                                Ajouter
+                                            </button>
+                                        </div>
+                                    </div>
+                                    {{ form_end(form) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
 {% endblock %}

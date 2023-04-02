@@ -20,11 +20,25 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/admin')]
 class AdminController extends AbstractController
 {
+    /**
+     * @throws Exception
+     */
     #[Route('', name: 'admin_index')]
-    public function index(): Response
+    public function index
+    (
+        ClientRepository $clientRepository,
+        AppointmentRepository $appointmentRepository,
+        NotAvailableSlotsRepository $notAvailableSlotsRepository
+    ): Response
     {
+        $now = new \DateTime();
+
+        $stats['clients'] = $clientRepository->count([]);
+        $stats['rdvs'] = $appointmentRepository->count(['date' => $now]);
+        $stats['off'] = $notAvailableSlotsRepository->findByDate($now->format("Y-m-d"));
+
         return $this->render('admin/index.html.twig', [
-            'data' => ''
+            'stats' => $stats
         ]);
     }
 
