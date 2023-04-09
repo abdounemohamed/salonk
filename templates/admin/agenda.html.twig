@@ -235,6 +235,16 @@
                         event.revert();
                     });
             }
+            // Function to reload events
+            function reloadEvents() {
+                calendar.refetchEvents();
+            }
+
+            // Call the reloadEvents function initially to load events when the page loads
+            reloadEvents();
+
+            // Set up an interval to call the reloadEvents function every 5 minutes (5 minutes * 60 seconds * 1000 milliseconds)
+            setInterval(reloadEvents, 30 * 1000);
 
             calendar.render();
         });
