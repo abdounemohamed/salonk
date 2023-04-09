@@ -5,70 +5,149 @@
 {% block body %}
     {% include('header.html.twig') %}
 
-    <!-- Section des tarifs -->
-    <section class="bg-white text-dark py-5" id="pricing">
-        <div class="container">
-            <h2 class="text-center mb-5">Tarifs</h2>
-            <div class="row">
-                <div class="col-lg-4 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h4 class="card-title text-primary">$34+</h4>
-                            <h4 class="card-subtitle mb-2">Coupe de cheveux régulière</h4>
-                            <hr class="my-4">
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non
-                                maximus erat, et bibendum leo.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h4 class="card-title text-primary">$35+</h4>
-                            <h4 class="card-subtitle mb-2">Rasage royal</h4>
-                            <hr class="my-4">
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non
-                                maximus erat, et bibendum leo.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h4 class="card-title text-primary">$60+</h4>
-                            <h4 class="card-subtitle mb-2">Coupe de cheveux + Rasage royal</h4>
-                            <hr class="my-4">
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non
-                                maximus erat, et bibendum leo.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h4 class="card-title text-primary">$65+</h4>
-                            <h4 class="card-subtitle mb-2">Coupe de cheveux + Coupe de barbe</h4>
-                            <hr class="my-4">
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non
-                                maximus erat, et bibendum leo.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 mb-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <h4 class="card-title text-primary">$23+</h4>
-                            <h4 class="card-subtitle mb-2">Coupe de barbe à la machine</h4>
-                            <hr class="my-4">
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non
-                                maximus erat, et bibendum leo.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <main class="flex-shrink-0">
 
+        <!-- Pricing section-->
+        <section class="bg-light py-5">
+            <div class="container px-5 my-5">
+                <div class="text-center mb-5">
+                    <h1 class="fw-bolder">Prestations à la carte</h1>
+                </div>
+                <div class="row gx-5 justify-content-center">
+                    <!-- Pricing card free-->
+                    <div class="col-lg-6 col-xl-4">
+                        <div class="card mb-5 mb-xl-0">
+                            <div class="card-body p-5">
+                                <div class="small text-uppercase fw-bold text-muted">Coupe seule</div>
+                                <div class="feature bg-primary bg-gradient text-white rounded-3">
+                                    <span class="display-4 fw-bold">10 €</span>
+                                    <img src="{{ asset('imgs/ciz.png') }}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Pricing card pro-->
+                    <div class="col-lg-6 col-xl-4">
+                        <div class="card mb-5 mb-xl-0">
+                            <div class="card-body p-5">
+                                <div class="small text-uppercase fw-bold text-muted">Coupe rasoir</div>
+                                <div class="feature bg-primary bg-gradient text-white rounded-3">
+                                    <span class="display-4 fw-bold">12 €</span>
+                                    <img src="{{ asset('imgs/tend.png') }}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Pricing card enterprise-->
+                    <div class="col-lg-6 col-xl-4">
+                        <div class="card">
+                            <div class="card-body p-5">
+                                <div class="small text-uppercase fw-bold text-muted">Coupe enfant (-10 ans)</div>
+                                <div class="feature bg-primary bg-gradient text-white rounded-3">
+                                    <span class="display-4 fw-bold">8 €</span>
+                                    <img src="{{ asset('imgs/kids.png') }}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row gx-5 justify-content-center">
+                    <!-- Pricing card free-->
+                    <div class="col-lg-6 col-xl-4">
+                        <div class="card mb-5 mb-xl-0">
+                            <div class="card-body p-5">
+                                <div class="small text-uppercase fw-bold text-muted">Barbe seule</div>
+                                <div class="feature bg-primary bg-gradient text-white rounded-3">
+                                    <span class="display-4 fw-bold">5 €</span>
+                                    <img src="{{ asset('imgs/barbe.png') }}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Pricing card pro-->
+                    <div class="col-lg-6 col-xl-4">
+                        <div class="card mb-5 mb-xl-0">
+                            <div class="card-body p-5">
+                                <div class="small text-uppercase fw-bold text-muted">Shampoing</div>
+                                <div class="feature bg-primary bg-gradient text-white rounded-3">
+                                    <span class="display-4 fw-bold">3 €</span>
+                                    <img src="{{ asset('imgs/kids.png') }}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Pricing card enterprise-->
+                    <div class="col-lg-6 col-xl-4">
+                        <div class="card">
+                            <div class="card-body p-5">
+                                <div class="small text-uppercase fw-bold text-muted">Contours</div>
+                                <div class="feature bg-primary bg-gradient text-white rounded-3">
+                                    <span class="display-4 fw-bold">3 €</span>
+                                    <img src="{{ asset('imgs/tend.png') }}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="text-center mb-5">
+                    <h1 class="fw-bolder">Forfaits</h1>
+                </div>
+                <div class="row gx-5 justify-content-center">
+                    <!-- Pricing card free-->
+                    <div class="col-lg-6 col-xl-4">
+                        <div class="card mb-5 mb-xl-0">
+                            <div class="card-body p-5">
+                                <div class="small text-uppercase fw-bold text-muted">Shampoing + coupe rasoir + barbe
+                                </div>
+                                <div class="mb-3">
+                                    <span class="display-4 fw-bold">18 €</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Pricing card pro-->
+                    <div class="col-lg-6 col-xl-4">
+                        <div class="card mb-5 mb-xl-0">
+                            <div class="card-body p-5">
+                                <div class="small text-uppercase fw-bold text-muted">Shampoing + coupe + barbe</div>
+                                <div class="mb-3">
+                                    <span class="display-4 fw-bold">15 €</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Pricing card enterprise-->
+                    <div class="col-lg-6 col-xl-4">
+                        <div class="card">
+                            <div class="card-body p-5">
+                                <div class="small text-uppercase fw-bold text-muted">Shampoing + coupe</div>
+                                <div class="mb-3">
+                                    <span class="display-4 fw-bold">12 €</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center mb-5">
+                    </div>
+                    <div class="row gx-5 justify-content-center">
+                        <div class="col-lg-6 col-xl-4">
+                            <div class="card">
+                                <div class="card-body p-5">
+                                    <div class="small text-uppercase fw-bold text-muted">Barbe + contours</div>
+                                    <div class="mb-3">
+                                        <span class="display-4 fw-bold">8 €</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+            </div>
+        </section>
+    </main>
 
     {% include('footer.html.twig') %}
 {% endblock %}
