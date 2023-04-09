@@ -35,6 +35,7 @@ class AdminController extends AbstractController
 
         $stats['clients'] = $clientRepository->count([]);
         $stats['rdvs'] = $appointmentRepository->count(['date' => $now]);
+        $stats['rdvsTomorrow'] = $appointmentRepository->count(['date' => $now->modify("+1 day")]);
         $stats['off'] = $notAvailableSlotsRepository->findByDate($now->format("Y-m-d"));
 
         return $this->render('admin/index.html.twig', [
@@ -86,7 +87,7 @@ class AdminController extends AbstractController
             $arrayTemp['start'] = $start;
             $arrayTemp['end'] = $end;
             $arrayTemp['allDays'] = false;
-            $arrayTemp['description'] = $appointment->getClient()->getFirstName() . '.' . ucfirst(substr($appointment->getClient()->getLastname(), 0, 1)) . ' ' . $appointment->getClient()->getPhone();
+            $arrayTemp['description'] = $appointment->getClient()->getFirstName() . '.' . $appointment->getClient()->getLastname() . ' ' . $appointment->getClient()->getPhone();
             $results[] = $arrayTemp;
         }
 
