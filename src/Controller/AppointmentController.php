@@ -6,6 +6,7 @@ use App\Entity\Appointment;
 use App\Entity\Client;
 use App\Service\AppointmentManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,6 +24,12 @@ class AppointmentController extends AbstractController
         return $this->render('app/index.html.twig', ['success' => false]);
     }
 
+    #[Route('/mentions-legales', name: 'app_mentions')]
+    public function mentions(): Response
+    {
+        return $this->render('app/mentions.html.twig');
+    }
+
     /**
      * @return Response
      */
@@ -33,7 +40,7 @@ class AppointmentController extends AbstractController
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     #[Route('/appointment', name: 'app_appointment')]
     public function index(AppointmentManager $appointmentManager, Request $request, EntityManagerInterface $entityManager): Response
@@ -83,7 +90,7 @@ class AppointmentController extends AbstractController
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     #[Route('/appointment/list', name: 'app_appointment_list')]
     public function getAppointmentsList(Request $request, AppointmentManager $appointmentManager): JsonResponse

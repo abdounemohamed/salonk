@@ -17,7 +17,35 @@
             width: 50px;
             height: 50px;
         }
+        /* Style personnalisé pour la bande en bas de page */
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #dc392d;
+            color: #fff;
+            padding: 7px;
+            text-align: center;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
+        .bottom-bar p {
+            margin: 0;
+            display: inline-block;
+        }
+
+        .bottom-bar a {
+            color: #fff;
+            margin-left: 10px;
+        }
+
+        .bottom-bar a:hover {
+            text-decoration: none;
+        }
     </style>
 {% endblock %}
 {% block body %}
@@ -49,7 +77,7 @@
     </header>
 
     <!-- Features section-->
-    <section class="py-5" id="features">
+    <section class="py-5" id="prestations">
         <div class="container px-5 my-5">
             <div class="row gx-5">
                 <div class="col-lg-4 mb-5 mb-lg-0"><h2 class="fw-bolder mb-0">Notre savoir-faire assure des services de
@@ -101,48 +129,13 @@
             </div>
         </div>
     </section>
-    <!-- Team members section-->
-    <section class="py-5 bg-light">
-        <div class="container px-5 my-5">
-            <div class="text-center">
-                <h2 class="fw-bolder">NOTRE ÉQUIPE</h2>
-            </div>
-            <div class="row gx-5 row-cols-1 row-cols-sm-2 row-cols-xl-4 justify-content-center">
-                <div class="col mb-5 mb-5 mb-xl-0">
-                    <div class="text-center">
-                        <img class="img-fluid rounded-circle mb-4 px-4" src="https://dummyimage.com/150x150/ced4da/6c757d" alt="..." />
-                        <h5 class="fw-bolder">Ibbie Eckart</h5>
-                        <div class="fst-italic text-muted">Founder &amp; CEO</div>
-                    </div>
-                </div>
-                <div class="col mb-5 mb-5 mb-xl-0">
-                    <div class="text-center">
-                        <img class="img-fluid rounded-circle mb-4 px-4" src="https://dummyimage.com/150x150/ced4da/6c757d" alt="..." />
-                        <h5 class="fw-bolder">Arden Vasek</h5>
-                        <div class="fst-italic text-muted">CFO</div>
-                    </div>
-                </div>
-                <div class="col mb-5 mb-5 mb-sm-0">
-                    <div class="text-center">
-                        <img class="img-fluid rounded-circle mb-4 px-4" src="https://dummyimage.com/150x150/ced4da/6c757d" alt="..." />
-                        <h5 class="fw-bolder">Toribio Nerthus</h5>
-                        <div class="fst-italic text-muted">Operations Manager</div>
-                    </div>
-                </div>
-                <div class="col mb-5">
-                    <div class="text-center">
-                        <img class="img-fluid rounded-circle mb-4 px-4" src="https://dummyimage.com/150x150/ced4da/6c757d" alt="..." />
-                        <h5 class="fw-bolder">Malvina Cilla</h5>
-                        <div class="fst-italic text-muted">CTO</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
+    <section class="py-5 bg-light" id="map" style="height: 400px">
     </section>
 
     <!-- Blog preview section-->
-    <section class="py-5">
-        <div class="container px-5 my-5">
+    <section class="py-5" >
+        <div class="container px-5 my-5" >
             <div class="row gx-5 justify-content-center">
                 <div class="col-lg-8 col-xl-6">
                     <div class="text-center">
@@ -169,18 +162,24 @@
                 </div>
             </div>
             <!-- Call to action-->
-            <aside class="bg-primary bg-gradient rounded-3 p-4 p-sm-5 mt-5">
+            <div class="row gx-5 justify-content-center">
+                <div class="col-lg-8 col-xl-6">
+                    <div class="text-center">
+                        <h2 class="fw-bolder"> Horaires d'ouverture
+                        </h2>
+                    </div>
+                </div>
+            </div><br>
+            <aside class="bg-primary bg-gradient rounded-3 p-4 p-sm-5 mt-5" id="horaires">
                 <div class="d-flex align-items-center justify-content-between flex-column flex-xl-row text-center text-xl-start">
-                    <div class="mb-4 mb-xl-0">
-                        <div class="fs-3 fw-bold text-white"><i
-                                    class="fa-solid fa-calendar-days"></i><span> Horaires d'ouverture </span></div>
-                        <div class="container mt-5">
+                    <div class="mb-4 mb-xl-0 ">
+                        <div class="container mt-12">
                             <div class="row">
                                 <div class="col-md-4">
                                     <div class="card">
                                         <div class="card-body">
                                             <h5 class="card-title">Lundi</h5>
-                                            <p class="card-text">9h00 - 18h00</p>
+                                            <p class="card-text">14h00 - 19H00</p>
                                         </div>
                                     </div>
                                 </div>
@@ -188,7 +187,7 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <h5 class="card-title">Mardi</h5>
-                                            <p class="card-text">9h00 - 18h00</p>
+                                            <p class="card-text">14h00 - 19H00</p>
                                         </div>
                                     </div>
                                 </div>
@@ -196,7 +195,7 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <h5 class="card-title">Mercredi</h5>
-                                            <p class="card-text">9h00 - 18h00</p>
+                                            <p class="card-text">14h00 - 19H00</p>
                                         </div>
                                     </div>
                                 </div>
@@ -206,7 +205,7 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <h5 class="card-title">Jeudi</h5>
-                                            <p class="card-text">9h00 - 18h00</p>
+                                            <p class="card-text">14h00 - 19H00</p>
                                         </div>
                                     </div>
                                 </div>
@@ -214,7 +213,7 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <h5 class="card-title">Vendredi</h5>
-                                            <p class="card-text">9h00 - 18h00</p>
+                                            <p class="card-text">14h00 - 19H00</p>
                                         </div>
                                     </div>
                                 </div>
@@ -222,7 +221,7 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <h5 class="card-title">Samedi</h5>
-                                            <p class="card-text">9h00 - 16h00</p>
+                                            <p class="card-text">10h00 - 19H00</p>
                                         </div>
                                     </div>
                                 </div>
@@ -232,36 +231,56 @@
                                     <p class="text-muted">* Fermé le dimanche</p>
                                 </div>
                             </div>
+
                         </div>
-                    </div>
-                    <div class="ms-xl-4">
-                        <div class="input-group mb-2">
-                            <div id="map" style="height: 400px;"></div>
-                        </div>
-                        <div class="small text-white-50">We care about privacy, and will never share your data.</div>
                     </div>
                 </div>
             </aside>
         </div>
     </section>
+
+    <!-- Team members section-->
+    <section class="py-5 bg-light" id="equipe">
+        <div class="container px-5 my-5">
+            <div class="text-center">
+                <h2 class="fw-bolder">NOTRE ÉQUIPE</h2>
+            </div>
+            <div class="row gx-5 row-cols-1 row-cols-sm-2 row-cols-xl-4 justify-content-center">
+                <div class="col mb-5 mb-5 mb-xl-0">
+                    <div class="text-center">
+                        <img class="img-fluid rounded-circle mb-4 px-4" src="https://dummyimage.com/150x150/ced4da/6c757d" alt="..." />
+                        <h5 class="fw-bolder">Abdel Karim E.   </h5>
+                        <div class="fst-italic text-muted">Coiffeur &amp; CEO</div>
+                    </div>
+                </div>
+                <div class="col mb-5 mb-5 mb-xl-0">
+                    <div class="text-center">
+                        <img class="img-fluid rounded-circle mb-4 px-4" src="https://dummyimage.com/150x150/ced4da/6c757d" alt="..." />
+                        <h5 class="fw-bolder">Abdel Malek</h5>
+                        <div class="fst-italic text-muted">Coiffeur</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     {% include('footer.html.twig') %}
+
+
+
+
+    <!-- Bande en bas de page avec Bootstrap -->
+    <div class="bottom-bar" id="bottom-bar">
+        <p class="pull-left">
+            Nous respectons votre vie privée. En continuant d'utiliser notre site web, vous acceptez notre politique en matière de cookies.
+        </p>
+        <a class="nav-link pull-right" href="#" onclick="closeBottomBar()">X</a>
+    </div>
 {% endblock %}
 {% block javascripts %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet-src.min.js"
             integrity="sha512-XQr+/1RXvYozXiwrumwtu3lqQmVwZ8nkLUrC/mc3HBHw4Imh++RXjwtLQFuOz3i65j9CSfKt50x6w/uUY2ovOQ=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-    <script>
-        const myCarouselElement = document.querySelector('#myCarousel')
-
-        const carousel = new bootstrap.Carousel(myCarouselElement, {
-            interval: 1500,
-            touch: false
-        })
-
-
-    </script>
-
     <script>
         var mymap = L.map('map').setView([44.40326583601811, 0.7050819306854087], 13);
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -269,6 +288,14 @@
             maxZoom: 18,
         }).addTo(mymap);
         L.marker([44.40326583601811, 0.7050819306854087]).addTo(mymap)
-            .bindPopup("<b>Salon <strong>K</strong></b><br />Nous sommes ici.").openPopup();
+            .bindPopup("<b>LE SALON <strong>K</strong></b><br />Nous sommes ici.").openPopup();
+
+
+        // Fermer la bande en bas de page
+        function closeBottomBar() {
+            document.getElementById("bottom-bar").style.display = "none";
+        }
     </script>
+
+
 {% endblock %}

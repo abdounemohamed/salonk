@@ -4,34 +4,35 @@
 {# ... #}
 
 {% block body %}
-    {% if error %}
-        <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+
     <div class="page page-center">
         <div class="container container-normal py-4">
             <div class="row align-items-center g-4">
                 <div class="col-lg">
                     <div class="container-tight">
-                        <div class="text-center mb-4">
-                            <a href="." class="navbar-brand navbar-brand-autodark"><img src="./static/logo.svg"
-                                                                                        height="36" alt=""></a>
-                        </div>
+                        {% if error %}
+                            <div class="col-md-12">
+                                <div class="card card-active">
+                                    <div class="card-body">
+                                        <p> {{ error.messageKey|trans(error.messageData, 'security') }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
                         <div class="card card-md">
                             <div class="card-body">
-                                <h2 class="h2 text-center mb-4">Login to your account</h2>
+                                <h2 class="h2 text-center mb-4">Connectez-vous à votre compte</h2>
                                 <form action="{{ path("app_login") }}" method="post" autocomplete="off" novalidate="">
                                     <div class="mb-3">
-                                        <label class="form-label">Email address</label>
+                                        <label class="form-label">Email </label>
                                         <input type="email" name="_username" class="form-control"
                                                placeholder="your@email.com"
                                                autocomplete="off">
                                     </div>
                                     <div class="mb-2">
                                         <label class="form-label">
-                                            Password
-                                            <span class="form-label-description">
-                          <a href="./forgot-password.html">I forgot password</a>
-                        </span>
+                                            Mot de passe
+                                            <span class="form-label-description"></span>
                                         </label>
                                         <div class="input-group input-group-flat">
                                             <input type="password" name="_password" class="form-control"

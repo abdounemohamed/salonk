@@ -1,0 +1,99 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Le salon K - RDV{% endblock %}
+
+{% block body %}
+    {% include('header.html.twig') %}
+
+    <section class="py-5">
+        <div class="container px-5 my-5">
+            <div class="text-center mb-5">
+                <h1 class="fw-bolder">Mentions légales</h1>
+            </div>
+            <div class="row gx-5">
+                <div class="col-xl-8">
+                    <!-- FAQ Accordion 1-->
+                    <div class="accordion mb-5" id="accordionExample">
+                        <div class="accordion-item">
+                            <h3 class="accordion-header" id="headingOne"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                    Informations générales
+                                </button>
+                            </h3>
+                            <div class="accordion-collapse collapse show" id="collapseOne" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    Ce site est édité par <strong>LE SALON K </strong><br>
+                                    Adresse : 23 Av. du Maréchal Leclerc, 47300 Villeneuve-sur-Lot<br>
+                                    Téléphone : 06 11 03 10 04 <br>
+                                    Email : contact@lesalonk.fr <br>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h3 class="accordion-header" id="headingTwo"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    Directeur de la publication
+                                </button></h3>
+                            <div class="accordion-collapse collapse" id="collapseTwo" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    Abdel Karim El Arras <br>
+                                    Le SAlON K <br>
+                                    Adresse : 23 Av. du Maréchal Leclerc, 47300 Villeneuve-sur-Lot <br>
+                                    Téléphone : 06 11 03 10 04 <br>
+                                    Email : contact@lesalonk.fr <br>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h3 class="accordion-header" id="headingThree"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                    Hébergement
+                                </button></h3>
+                            <div class="accordion-collapse collapse" id="collapseThree" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    Ce site est hébergé par IONOS SARL <br>
+                                    Téléphone : 970 808 911<br>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h3 class="accordion-header" id="headingFor"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFor" aria-expanded="false" aria-controls="collapseFor">
+                                    Protection des données personnelles
+                                </button></h3>
+                            <div class="accordion-collapse collapse" id="collapseFor" aria-labelledby="headingFor" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    LE SALON K s'engage à respecter la confidentialité des données personnelles collectées sur ce site. Pour plus d'informations sur notre politique de protection des données personnelles, veuillez consulter notre politique de confidentialité.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h3 class="accordion-header" id="headingFive"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                    Limitation de responsabilité
+                                </button></h3>
+                            <div class="accordion-collapse collapse" id="collapseFive" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    LE SALON K ne saurait être tenu responsable des dommages directs ou indirects résultant de l'utilisation ou de l'impossibilité d'utilisation de ce site, y compris les pertes de données, les pertes de revenus, les pertes de profits, les pertes d'opportunités d'affaires, les pertes de clientèle, les perturbations commerciales ou les dommages causés par des virus ou autres éléments destructeurs.
+                               </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4">
+                    <div class="card border-0 bg-light mt-xl-5">
+                        <div class="card-body p-4 py-lg-5">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <div class="text-center">
+                                    <div class="h6 fw-bolder">Vous avez d'autres questions?</div>
+                                    <p class="text-muted mb-4">
+                                        Contactez-nous à
+                                        <br />
+                                        <a href="#!">contact@lesalonk.fr</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% include('footer.html.twig') %}
+{% endblock %}
+
