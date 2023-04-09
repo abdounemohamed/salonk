@@ -50,18 +50,21 @@ class AppointmentController extends AbstractController
                 $request->get('slot') == "" ||
                 $request->get('firstname') == ""||
                 $request->get('lastname') == "" ||
-                $request->get('cgu') == ""
+                $request->get('cgu') == "" ||
+                $request->get('phone') == ""
             ){
                 return $this->redirectToRoute("app_appointment", ["error" => "req"]);
             }
-            //TODO:: check if this client exists and have rdv
-            //create new client
-            $client = new Client();
-            $client->setCreatedAt(new \DateTimeImmutable());
-            $client->setFirstname($request->get('firstname'));
-            $client->setLastname($request->get('lastname'));
-            $client->setPhone($request->get('phone'));
-            $entityManager->persist($client);
+            $client = $entityManager->getRepository(Client::class)->findOneBy(['phone' => $request->get('phone')]);
+            if (!$client instanceof Client) {
+                //create new client
+                $client = new Client();
+                $client->setCreatedAt(new \DateTimeImmutable());
+                $client->setFirstname($request->get('firstname'));
+                $client->setLastname($request->get('lastname'));
+                $client->setPhone($request->get('phone'));
+                $entityManager->persist($client);
+            }
 
             $appointment = new Appointment();
             $appointment->setDate(new \DateTime($request->get('date')));
