@@ -130,7 +130,13 @@ class AdminController extends AbstractController
                 $client->setCreatedAt(new \DateTimeImmutable());
                 $client->setFirstname($data->firstname);
                 $client->setLastname($data->lastname);
-                $client->setPhone($data->phone);
+                $numeroTelephone = preg_replace("/^\+33\s?/", "", $data->phone);
+
+                if (!str_starts_with($numeroTelephone, '0')) {
+                    $numeroTelephone = '0' . $numeroTelephone;
+                }
+
+                $client->setPhone(str_replace(" ", "", $numeroTelephone));
                 $entityManager->persist($client);
             }
             //add appointment

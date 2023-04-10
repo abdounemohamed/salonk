@@ -62,7 +62,15 @@ class AppointmentController extends AbstractController
                 $client->setCreatedAt(new \DateTimeImmutable());
                 $client->setFirstname($request->get('firstname'));
                 $client->setLastname($request->get('lastname'));
-                $client->setPhone($request->get('phone'));
+                // Supprimer l'indicatif "+33" s'il existe
+                $numeroTelephone = preg_replace("/^\+33\s?/", "", $request->get('phone'));
+
+                if (!str_starts_with($numeroTelephone, '0')) {
+                    $numeroTelephone = '0' . $numeroTelephone;
+                }
+
+                $client->setPhone(str_replace(" ", "", $numeroTelephone));
+
                 $entityManager->persist($client);
             }
 
