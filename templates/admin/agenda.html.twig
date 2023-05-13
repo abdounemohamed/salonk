@@ -31,7 +31,7 @@
     <script>
         $(document).ready(function () {
             let calendarElt = document.querySelector("#calendar");
-
+            let isPopupOpen = false; // Variable pour suivre l'état de la popup
             let calendar = new FullCalendar.Calendar(calendarElt, {
                 initialView: 'timeGridWeek',
                 locale: 'fr',
@@ -83,11 +83,16 @@
                 },
 
                 // add event and selectable
+
                 editable: true,
                 eventDrop: updateEvent,
                 selectable: "slot",
                 selectOverlap: true,
                 dateClick: function (info) {
+                    if (isPopupOpen) {
+                        return; // Sortir de la fonction si une popup est déjà ouverte
+                    }
+
                     // Créer le formulaire de sélection du type d'événement
                     let form = document.createElement("form");
                     form.classList.add("p-3");
@@ -185,6 +190,7 @@
                                 console.log(data);
                                 // Masquer la pop-up
                                 popover.hide();
+                                isPopupOpen = false;
                                 // Recharger la page
                                 location.reload();
                             })
@@ -202,6 +208,7 @@
                     cancelButton.addEventListener("click", function (event) {
                         event.preventDefault();
                         popover.hide();
+                        isPopupOpen = false;
                     });
                 }
 
