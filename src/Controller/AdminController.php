@@ -87,6 +87,7 @@ class AdminController extends AbstractController
             $arrayTemp['start'] = $start;
             $arrayTemp['end'] = $end;
             $arrayTemp['allDays'] = false;
+            $arrayTemp['type'] = 'rdv';
             $arrayTemp['description'] = $appointment->getClient()->getFirstName() . '.' . $appointment->getClient()->getLastname() . ' ' . $appointment->getClient()->getPhone();
             $results[] = $arrayTemp;
         }
@@ -104,6 +105,7 @@ class AdminController extends AbstractController
             $arrayTemp['end'] = $end;
             $arrayTemp['allDays'] = true;
             $arrayTemp['description'] = 'Congé';
+            $arrayTemp['type'] = 'conge';
             $results[] = $arrayTemp;
         }
 
@@ -192,14 +194,28 @@ class AdminController extends AbstractController
     }
 
     #[Route('/events/delete', name: 'admin_events_delete')]
-    public function dropEvent(Request $request, AppointmentRepository $appointmentRepository): JsonResponse
+    public function dropEvent
+    (
+        Request $request,
+        AppointmentRepository $appointmentRepository,
+        NotAvailableSlotsRepository $notAvailableSlotsRepository
+    ): JsonResponse
     {
         $data = json_decode($request->getContent());
 
         if ($data){
-            $event = $appointmentRepository->find($data->id);
-            $appointmentRepository->remove($event, true);
-            return $this->json(['ok' => true]);
+            if($data->type === "rdv"){
+                $event = $appointmentRepository->find($data->id);
+                $appointmentRepository->remove($event, true);
+                return $this->json(['ok' => true]);
+            }
+
+            if ($data->type === "conge"){
+                $event = $notAvailableSlotsRepository->find($data->id);
+                $notAvailableSlotsRepository->remove($event, true);
+                return $this->json(['ok' => true]);
+            }
+
         }
         return $this->json(['ok' => false]);
     }
