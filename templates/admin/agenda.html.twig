@@ -89,12 +89,8 @@
                 selectable: "slot",
                 selectOverlap: true,
                 dateClick: function (info) {
-                    const slotMinTime = calendar.getOption('slotMinTime');
-                    const slotMaxTime = calendar.getOption('slotMaxTime');
-
                     const slotStart = info.date;
-                    const slotEnd = new Date(slotStart.getTime() + getSlotDuration(slotMinTime, slotMaxTime));
-
+                    const slotEnd = new Date(slotStart.getTime() + 30 * 60 * 1000); // Ajoute 30 minutes à l'heure de début
 
 
                     if (isPopupOpen) {
@@ -262,26 +258,6 @@
             setInterval(reloadEvents, 30 * 1000);
 
             calendar.render();
-
-
-            function getSlotDuration(slotMinTime, slotMaxTime) {
-                const minTime = parseTime(slotMinTime);
-                const maxTime = parseTime(slotMaxTime);
-
-                const durationInMinutes = (maxTime.getHours() - minTime.getHours()) * 60 + (maxTime.getMinutes() - minTime.getMinutes());
-
-                return durationInMinutes * 60000; // Convertir la durée en minutes en millisecondes
-            }
-
-            function parseTime(timeString) {
-                const [hours, minutes] = timeString.split(':');
-                const date = new Date();
-                date.setHours(parseInt(hours, 10));
-                date.setMinutes(parseInt(minutes, 10));
-                date.setSeconds(0);
-                date.setMilliseconds(0);
-                return date;
-            }
         });
     </script>
 
