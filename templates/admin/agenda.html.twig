@@ -67,7 +67,7 @@
                 //tooltip
                 eventDidMount: function (info) {
                     let tooltip = new bootstrap.Tooltip(info.el, {
-                        title: info.event.extendedProps.description,
+                        title: info.event.extendedProps.firstname + ' ' + info.event.extendedProps.lastname,
                         placement: 'top',
                         trigger: 'manual', // on passe trigger à "manual"
                         container: 'body'
