@@ -191,4 +191,10 @@ class AdminController extends AbstractController
         }
         return $this->json(['ok' => false]);
     }
+
+    #[Route('/events/delete', name: 'admin_events_delete')]
+    public function dropEvent(): JsonResponse
+    {
+        return $this->json(['ok' => false]);
+    }
 }
