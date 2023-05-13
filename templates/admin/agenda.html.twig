@@ -71,24 +71,6 @@
                     eventContent.textContent = eventTitle;
                     return { domNodes: [eventContent] };
                 },
-                //delete btn
-                eventDidMount: function (info) {
-                    // Créer le bouton de suppression avec les classes Bootstrap
-                    let deleteButton = document.createElement('button');
-                    deleteButton.classList.add('btn', 'btn-sm', 'btn-danger'); // Ajoutez les classes Bootstrap pour un petit bouton rouge
-                    let icon = document.createElement('i');
-                    icon.classList.add('bi', 'bi-trash'); // Utilisez la classe d'icône Bootstrap "bi" et la classe "bi-trash" pour l'icône de la corbeille
-                    deleteButton.appendChild(icon);
-
-                    // Ajouter un événement de clic sur le bouton de suppression
-                    deleteButton.addEventListener('click', function (event) {
-                        event.stopPropagation(); // Empêcher la propagation de l'événement de clic sur l'événement lui-même
-                        if (confirm('Êtes-vous sûr de vouloir supprimer cet événement ?')) {
-                            deleteEvent(info.event); // Appeler la fonction de suppression de l'événement
-                        }
-                    });
-                },
-
                 // add event and selectable
                 editable: true,
                 eventDrop: updateEvent,
@@ -98,7 +80,6 @@
                 dateClick: function (info) {
                     const slotStart = info.date;
                     const slotEnd = new Date(slotStart.getTime() + 30 * 60 * 1000); // Ajoute 30 minutes à l'heure de début
-
 
                     if (isPopupOpen) {
                         return; // Sortir de la fonction si une popup est déjà ouverte
