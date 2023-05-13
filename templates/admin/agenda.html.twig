@@ -89,6 +89,9 @@
                 selectable: "slot",
                 selectOverlap: true,
                 eventClick: function (info) {
+                    const slotDuration = calendar.getOption('slotDuration'); // Durée du slot
+                    const slotStart = info.date; // Date/heure de début du slot
+                    const slotEnd = slotStart.clone().add(slotDuration);
                     if (isPopupOpen) {
                         return; // Sortir de la fonction si une popup est déjà ouverte
                     }
@@ -164,8 +167,8 @@
                         // Créer l'événement
                         let eventData = {
                             title: type,
-                            start: info.event.start,
-                            end: info.event.end,
+                            start: slotStart,
+                            end: slotEnd,
                             allDay: false, // set to false if you want to create a timed event
                             lastname: lastname,
                             firstname: firstname,
