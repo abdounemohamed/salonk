@@ -79,34 +79,39 @@ class AppointmentManager
      */
     public function getAvailableSlots2(string $day): array
     {
-        // Define the start and end times of business hours
-        $startTime = strtotime('10:00');
-        $endTime = strtotime('19:00');
+        $hoursByDay = array(
+            "lundi" => array("10:00", "19:00"),
+            "mardi" => array("09:00", "18:30"),
+            "mercredi" => array("11:00", "20:00"),
+            // Ajoutez les autres jours de la semaine avec leurs heures d'ouverture
+        );
 
         $numPeoplePerHour = 2;
-
         $reservationDuration = 3600 / $numPeoplePerHour;
 
         $availableSlots = array();
 
-        for ($time = $startTime; $time < $endTime; $time += $reservationDuration) {
-            $startTimeStr = date('H:i', $time); // format start time as "hh:mm"
-            $endTimeStr = date('H:i', ($time + $reservationDuration)); // format end time as "hh:mm"
-            $slot = $startTimeStr.'-'.$endTimeStr; // create reservation slot
+        $startTime = strtotime($hoursByDay[$day][0]);
+        $endTime = strtotime($hoursByDay[$day][1]);
 
-            // Check if the slot is not already booked for this day
+        for ($time = $startTime; $time < $endTime; $time += $reservationDuration) {
+            $startTimeStr = date('H:i', $time);
+            $endTimeStr = date('H:i', ($time + $reservationDuration));
+            $slot = $startTimeStr . '-' . $endTimeStr;
+
+            // Vérifiez si le créneau n'est pas déjà réservé pour ce jour
             $notAvailableSlots = $this->getUsedSlots($day);
             if (in_array($slot, $notAvailableSlots)) {
-                continue; // Skip this slot
+                continue; // Passez à l'itération suivante
             }
 
-            // Check if the slot is not within a time range marked as "congé"
+            // Vérifiez si le créneau ne se trouve pas dans une plage horaire marquée comme "congé"
             $congeRanges = $this->getCongeRanges($day);
             foreach ($congeRanges as $congeRange) {
                 $congeStart = strtotime($congeRange['start_time']);
                 $congeEnd = strtotime($congeRange['end_time']);
                 if ($time >= $congeStart && $time + $reservationDuration <= $congeEnd) {
-                    continue 2; // Skip this slot and move to the next time range
+                    continue 2; // Passez à l'itération suivante de la boucle externe
                 }
             }
 
