@@ -91,7 +91,7 @@
                 dateClick: function (info) {
                     const slotDuration = calendar.getOption('slotDuration');
                     const slotStart = info.date;
-                    const slotEnd = new Date(slotStart.getTime() + slotDuration.asMilliseconds());
+                    const slotEnd = new Date(slotStart.getTime() + (slotDuration * 60000)); // Convertir la durée en minutes en millisecondes
 
 
                     if (isPopupOpen) {
