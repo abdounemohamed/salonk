@@ -79,19 +79,21 @@ class AppointmentManager
      */
     public function getAvailableSlots2(string $day): array
     {
-        $slotsByDay = array(
-            "Monday" => array("10:00-19:00"),
-            "Tuesday" => array("14:00-18:30"),
-            "Wednesday" => array("14:00-18:30"),
-            // Ajoutez les autres jours de la semaine avec leurs plages horaires
-        );
+        $slotsByDay = [
+            "Monday" => ["14:00-19:00"],
+            "Tuesday" => ["14:00-19:00"],
+            "Wednesday" => ["12:00-19:00"],
+            "Thursday" => ["12:00-19:00"],
+            "Friday" => ["10:00-13:00", "14:00-19:00"],
+            "Saturday" => ["10:00-19:00"],
+        ];
 
         $numPeoplePerHour = 2;
         $reservationDuration = 3600 / $numPeoplePerHour;
 
         $availableSlots = array();
 
-        $formattedDay = (new \DateTime($day))->format("l"); // Convertir la date en jour de la semaine (lundi, mardi, etc.)
+        $formattedDay = (new \DateTime($day))->format("l"); // Convert the date to the day of the week (Monday, Tuesday, etc.)
 
         if (array_key_exists($formattedDay, $slotsByDay)) {
             $slots = $slotsByDay[$formattedDay];
@@ -129,6 +131,7 @@ class AppointmentManager
         }
 
         return $availableSlots;
+
     }
 
 
