@@ -203,10 +203,10 @@ class AdminController extends AbstractController
 
         if ($data){
             if (str_starts_with($data->id, "c_")){
-                $event = $notAvailableSlotsRepository->find($data->id);
+                $event = $notAvailableSlotsRepository->find(str_replace("c_", "", $data->id));
                 $notAvailableSlotsRepository->remove($event, true);
             }else{
-                $event = $appointmentRepository->find(str_replace("c_", "", $data->id));
+                $event = $appointmentRepository->find($data->id);
                 $appointmentRepository->remove($event, true);
             }
 
