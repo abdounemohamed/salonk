@@ -95,9 +95,9 @@
                     typeSelect.id = "type-select";
                     typeSelect.classList.add("form-select", "mb-3");
                     typeSelect.innerHTML = `
-                        <option value="rdv">RDV</option>
-                        <option value="off">Congés</option>
-                    `;
+        <option value="rdv">RDV</option>
+        <option value="off">Congés</option>
+    `;
                     form.appendChild(typeSelect);
 
                     // Ajouter les champs nom et téléphone
@@ -161,6 +161,7 @@
                             phone: phone,
                             type: type
                         };
+
                         // Envoyer les données au serveur avec fetch
                         fetch('{{ path('admin_events_add') }}', {
                             method: 'POST',
@@ -174,75 +175,72 @@
                                     throw new Error('Failed to add event');
                                 }
                                 return response.json();
-                            .
-                                then(data => {
-                                    console.log(data);
-                                    // Masquer la pop-up
-                                    popover.hide();
-                                    // Recharger la page
-                                    location.reload();
-                                })
-                                    .catch(error => {
-                                        console.error(error);
-                                        // Afficher le message d'erreur dans la pop-up
-                                        let errorElement = document.createElement('div');
-                                        errorElement.classList.add('alert', 'alert-danger', 'mt-3');
-                                        errorElement.textContent = 'Une erreur s\'est produite lors de l\'ajout de l\'événement.';
-                                        form.appendChild(errorElement);
-                                    });
+                            })
+                            .then(data => {
+                                console.log(data);
+                                // Masquer la pop-up
+                                popover.hide();
+                                // Recharger la page
+                                location.reload();
+                            })
+                            .catch(error => {
+                                console.error(error);
+                                // Afficher le message d'erreur dans la pop-up
+                                let errorElement = document.createElement('div');
+                                errorElement.classList.add('alert', 'alert-danger', 'mt-3');
+                                errorElement.textContent
+                                    = "Une erreur s'est produite lorsd de l'ajout de l'événement.";
+                                form.appendChild(errorElement);
                             });
-
                         // Ajouter un événement pour fermer la pop-up
                         cancelButton.addEventListener("click", function (event) {
                             event.preventDefault();
                             popover.hide();
                         });
-                    }
-
-                });
-
-            function updateEvent(event) {
-                // update the event with the new dates
-                let eventData = {
-                    id: event.event.id,
-                    start: event.event.start.toISOString(),
-                    end: event.event.end ? event.event.end.toISOString() : null
-                };
-                fetch('{{ path('admin_events_edit') }}', {
-                    method: 'POST',
-                    body: JSON.stringify(eventData),
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Failed to update event');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log(data);
-                    })
-                    .catch(error => {
-                        console.error(error);
-                        event.revert();
                     });
-            }
 
-            // Function to reload events
-            function reloadEvents() {
-                calendar.refetchEvents();
-            }
+                    function updateEvent(event) {
+                        // update the event with the new dates
+                        let eventData = {
+                            id: event.event.id,
+                            start: event.event.start.toISOString(),
+                            end: event.event.end ? event.event.end.toISOString() : null
+                        };
+                        fetch('{{ path('admin_events_edit') }}', {
+                            method: 'POST',
+                            body: JSON.stringify(eventData),
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error('Failed to update event');
+                                }
+                                return response.json();
+                            })
+                            .then(data => {
+                                console.log(data);
+                            })
+                            .catch(error => {
+                                console.error(error);
+                                event.revert();
+                            });
+                    }
 
-            // Call the reloadEvents function initially to load events when the page loads
-            reloadEvents();
+                    // Function to reload events
+                    function reloadEvents() {
+                        calendar.refetchEvents();
+                    }
 
-            // Set up an interval to call the reloadEvents function every 5 minutes (5 minutes * 60 seconds * 1000 milliseconds)
-            setInterval(reloadEvents, 30 * 1000);
+                    // Call the reloadEvents function initially to load events when the page loads
+                    reloadEvents();
 
-            calendar.render();
-        })
+                    // Set up an interval to call the reloadEvents function every 5 minutes (5 minutes * 60 seconds * 1000 milliseconds)
+                    setInterval(reloadEvents, 30 * 1000);
+
+                    calendar.render();
+                })
             ;
     </script>
 
