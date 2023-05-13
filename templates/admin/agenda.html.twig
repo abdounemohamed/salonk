@@ -87,7 +87,7 @@
                 eventDrop: updateEvent,
                 selectable: "slot",
                 selectOverlap: true,
-                eventClick: function (info) {
+                select: function (info) {
                     // Créer le formulaire de sélection du type d'événement
                     let form = document.createElement("form");
                     form.classList.add("p-3");
@@ -95,9 +95,9 @@
                     typeSelect.id = "type-select";
                     typeSelect.classList.add("form-select", "mb-3");
                     typeSelect.innerHTML = `
-        <option value="rdv">RDV</option>
-        <option value="off">Congés</option>
-    `;
+                            <option value="rdv">RDV</option>
+                            <option value="off">Congés</option>
+                        `;
                     form.appendChild(typeSelect);
 
                     // Ajouter les champs nom et téléphone
@@ -108,7 +108,7 @@
                     firstnameInput.classList.add("form-control", "mb-3");
                     form.appendChild(firstnameInput);
                     let lastnameInput = document.createElement("input");
-                    lastnameInput.id = "lastname-input";
+                    lastnameInput.id = "name-input";
                     lastnameInput.name = "lastname";
                     lastnameInput.placeholder = "Prénom";
                     lastnameInput.classList.add("form-control", "mb-3");
@@ -127,7 +127,13 @@
                     submitButton.value = "Ajouter";
                     submitButton.classList.add("btn", "btn-primary");
                     form.appendChild(submitButton);
-
+                    //cancel btn
+                    let cancelButton = document.createElement("button");
+                    cancelButton.type = "button";
+                    cancelButton.textContent = "Annuler";
+                    cancelButton.className = "btn btn-secondary ms-2";
+                    form.appendChild(submitButton);
+                    form.appendChild(cancelButton);
                     // Créer la pop-up avec le formulaire
                     let popover = new bootstrap.Popover(info.jsEvent.target, {
                         title: "Ajouter un événement",
@@ -147,7 +153,7 @@
                         // Récupérer les valeurs des champs du formulaire
                         let type = typeSelect.value;
                         let lastname = lastnameInput.value;
-                        let firstname = firstnameInput.value;
+                        let firstname = lastnameInput.value;
                         let phone = phoneInput.value;
 
                         // Créer l'événement
@@ -161,7 +167,6 @@
                             phone: phone,
                             type: type
                         };
-
                         // Envoyer les données au serveur avec fetch
                         fetch('{{ path('admin_events_add') }}', {
                             method: 'POST',
@@ -188,60 +193,61 @@
                                 // Afficher le message d'erreur dans la pop-up
                                 let errorElement = document.createElement('div');
                                 errorElement.classList.add('alert', 'alert-danger', 'mt-3');
-                                errorElement.textContent
-                                    = "Une erreur s'est produite lorsd de l'ajout de l'événement.";
+                                errorElement.textContent = 'Une erreur s\'est produite lors de l\'ajout de l\'événement.';
                                 form.appendChild(errorElement);
                             });
-                        // Ajouter un événement pour fermer la pop-up
-                        cancelButton.addEventListener("click", function (event) {
-                            event.preventDefault();
-                            popover.hide();
-                        });
                     });
 
-                    function updateEvent(event) {
-                        // update the event with the new dates
-                        let eventData = {
-                            id: event.event.id,
-                            start: event.event.start.toISOString(),
-                            end: event.event.end ? event.event.end.toISOString() : null
-                        };
-                        fetch('{{ path('admin_events_edit') }}', {
-                            method: 'POST',
-                            body: JSON.stringify(eventData),
-                            headers: {
-                                'Content-Type': 'application/json'
-                            }
-                        })
-                            .then(response => {
-                                if (!response.ok) {
-                                    throw new Error('Failed to update event');
-                                }
-                                return response.json();
-                            })
-                            .then(data => {
-                                console.log(data);
-                            })
-                            .catch(error => {
-                                console.error(error);
-                                event.revert();
-                            });
+                    // Ajouter un événement pour fermer la pop-up
+                    cancelButton.addEventListener("click", function (event) {
+                        event.preventDefault();
+                        popover.hide();
+                    });
+                }
+
+            });
+
+            function updateEvent(event) {
+                // update the event with the new dates
+                let eventData = {
+                    id: event.event.id,
+                    start: event.event.start.toISOString(),
+                    end: event.event.end ? event.event.end.toISOString() : null
+                };
+                fetch('{{ path('admin_events_edit') }}', {
+                    method: 'POST',
+                    body: JSON.stringify(eventData),
+                    headers: {
+                        'Content-Type': 'application/json'
                     }
-
-                    // Function to reload events
-                    function reloadEvents() {
-                        calendar.refetchEvents();
-                    }
-
-                    // Call the reloadEvents function initially to load events when the page loads
-                    reloadEvents();
-
-                    // Set up an interval to call the reloadEvents function every 5 minutes (5 minutes * 60 seconds * 1000 milliseconds)
-                    setInterval(reloadEvents, 30 * 1000);
-
-                    calendar.render();
                 })
-            ;
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Failed to update event');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data);
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        event.revert();
+                    });
+            }
+            // Function to reload events
+            function reloadEvents() {
+                calendar.refetchEvents();
+            }
+
+            // Call the reloadEvents function initially to load events when the page loads
+            reloadEvents();
+
+            // Set up an interval to call the reloadEvents function every 5 minutes (5 minutes * 60 seconds * 1000 milliseconds)
+            setInterval(reloadEvents, 30 * 1000);
+
+            calendar.render();
+        });
     </script>
 
 {% endblock %}
