@@ -73,10 +73,10 @@
                 },
                 //delete btn
                 eventDidMount: function (info) {
-                    // Ajouter le bouton de suppression à côté de l'événement
+                    // Créer le bouton de suppression avec les classes Bootstrap
                     let deleteButton = document.createElement('button');
                     deleteButton.innerHTML = '<i class="fa fa-trash"></i>'; // Icône de la corbeille
-                    deleteButton.className = 'btn-delete-event'; // Classe CSS pour le style
+                    deleteButton.className = 'btn btn-danger btn-sm btn-delete-event'; // Classes CSS pour le style de Bootstrap
                     info.el.appendChild(deleteButton);
 
                     // Ajouter un événement de clic sur le bouton de suppression
