@@ -46,7 +46,7 @@
                 slotLabelInterval: 30,
                 slotMinTime: '10:00:00',
                 slotMaxTime: '19:00:00',
-                eventDisplay: 'auto',
+                eventDisplay: 'block',
                 businessHours: {
                     startTime: '10:00',
                     endTime: '19:00',
@@ -64,10 +64,18 @@
                         method: "POST",
                     },
                 ],
+                //affichage de block event
+                eventContent: function (arg) {
+                    let eventTitle = arg.event.title;
+                    let eventDescription = arg.event.extendedProps.description;
+                    let eventContent = document.createElement('div');
+                    eventContent.textContent = eventTitle + ' ' + eventDescription;
+                    return { domNodes: [eventContent] };
+                },
                 //tooltip
                 eventDidMount: function (info) {
                     let tooltip = new bootstrap.Tooltip(info.el, {
-                        title: info.event.extendedProps.firstname + ' ' + info.event.extendedProps.lastname,
+                        title: info.event.extendedProps.description,
                         placement: 'top',
                         trigger: 'manual', // on passe trigger à "manual"
                         container: 'body'
