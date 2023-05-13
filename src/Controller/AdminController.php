@@ -193,10 +193,15 @@ class AdminController extends AbstractController
     }
 
     #[Route('/events/delete', name: 'admin_events_delete')]
-    public function dropEvent(Request $request): JsonResponse
+    public function dropEvent(Request $request, AppointmentRepository $appointmentRepository): JsonResponse
     {
         $data = json_decode($request->getContent());
-        dd($data);
+
+        if ($data){
+            $event = $appointmentRepository->find($data->id);
+            $appointmentRepository->remove($event, true);
+            return $this->json(['ok' => true]);
+        }
         return $this->json(['ok' => false]);
     }
 }
