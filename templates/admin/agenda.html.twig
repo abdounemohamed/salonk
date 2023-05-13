@@ -91,7 +91,8 @@
                 dateClick: function (info) {
                     const slotDuration = calendar.getOption('slotDuration');
                     const slotStart = info.date;
-                    const slotEnd = slotStart.clone().add(slotDuration);
+                    const slotEnd = new Date(slotStart.getTime() + slotDuration.asMilliseconds());
+
 
                     if (isPopupOpen) {
                         return; // Sortir de la fonction si une popup est déjà ouverte
