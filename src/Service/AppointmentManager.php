@@ -105,11 +105,6 @@ class AppointmentManager
                 $endTime = strtotime($endTimeStr);
 
                 for ($time = $startTime; $time < $endTime; $time += $reservationDuration) {
-                    // Skip the time range between 13:00 and 14:00 on Fridays
-                    if ($formattedDay === "Friday" && date("H:i", $time) === "13:00") {
-                        $time += 7200;
-                        continue;
-                    }
 
                     $slotStartTimeStr = date('H:i', $time);
                     $slotEndTimeStr = date('H:i', ($time + $reservationDuration));
