@@ -71,6 +71,22 @@
                     eventContent.textContent = eventTitle;
                     return { domNodes: [eventContent] };
                 },
+                //delete btn
+                eventDidMount: function (info) {
+                    // Ajouter le bouton de suppression à côté de l'événement
+                    let deleteButton = document.createElement('button');
+                    deleteButton.innerHTML = '<i class="fa fa-trash"></i>'; // Icône de la corbeille
+                    deleteButton.className = 'btn-delete-event'; // Classe CSS pour le style
+                    info.el.appendChild(deleteButton);
+
+                    // Ajouter un événement de clic sur le bouton de suppression
+                    deleteButton.addEventListener('click', function (event) {
+                        event.stopPropagation(); // Empêcher la propagation de l'événement de clic sur l'événement lui-même
+                        if (confirm('Êtes-vous sûr de vouloir supprimer cet événement ?')) {
+                            deleteEvent(info.event); // Appeler la fonction de suppression de l'événement
+                        }
+                    });
+                },
 
                 // add event and selectable
                 editable: true,
