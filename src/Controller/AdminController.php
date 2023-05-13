@@ -82,7 +82,7 @@ class AdminController extends AbstractController
 
             $arrayTemp = [];
             $arrayTemp['id'] = $appointment->getId();
-            $arrayTemp['title'] = $appointment->getClient()->getFirstName() . '.' . ucfirst(substr($appointment->getClient()->getLastname(), 0, 1));
+            $arrayTemp['title'] = $appointment->getClient()->getFirstName() . '.' . $appointment->getClient()->getLastname() ;
             $arrayTemp['color'] = "#dc392d";
             $arrayTemp['start'] = $start;
             $arrayTemp['end'] = $end;
