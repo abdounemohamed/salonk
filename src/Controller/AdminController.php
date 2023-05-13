@@ -202,21 +202,19 @@ class AdminController extends AbstractController
     ): JsonResponse
     {
         $data = json_decode($request->getContent());
-        dd($data);
-        if ($data){
-            if($data->type === "rdv"){
-                $event = $appointmentRepository->find($data->id);
-                $appointmentRepository->remove($event, true);
-                return $this->json(['ok' => true]);
-            }
 
-            if ($data->type === "conge"){
+        if ($data){
+            if (str_starts_with($data->id, "c_")){
+                $event = $appointmentRepository->find(str_replace("c_", "", $data->id));
+                $appointmentRepository->remove($event, true);
+            }else{
                 $event = $notAvailableSlotsRepository->find($data->id);
                 $notAvailableSlotsRepository->remove($event, true);
-                return $this->json(['ok' => true]);
             }
 
+            return $this->json(['ok' => true]);
         }
+
         return $this->json(['ok' => false]);
     }
 }

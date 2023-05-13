@@ -239,7 +239,7 @@
                 if (confirm("Êtes-vous sûr de vouloir supprimer cet événement ?")) {
                     fetch('{{ path('admin_events_delete') }}', {
                         method: 'POST',
-                        body: JSON.stringify({ id: info.event.id, type: info.event.type }),
+                        body: JSON.stringify({ id: info.event.id }),
                         headers: {
                             'Content-Type': 'application/json'
                         }
