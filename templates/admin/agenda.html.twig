@@ -128,12 +128,12 @@
                     submitButton.classList.add("btn", "btn-primary");
                     form.appendChild(submitButton);
                     //cancel btn
-                    //cancel btn
                     let cancelButton = document.createElement("button");
                     cancelButton.type = "button";
                     cancelButton.textContent = "Annuler";
                     cancelButton.className = "btn btn-secondary ms-2";
                     form.appendChild(cancelButton);
+
                     // Créer la pop-up avec le formulaire
                     let popover = new bootstrap.Popover(info.jsEvent.target, {
                         title: "Ajouter un événement",
