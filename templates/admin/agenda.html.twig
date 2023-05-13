@@ -83,9 +83,9 @@
                 },
 
                 // add event and selectable
-
                 editable: true,
                 eventDrop: updateEvent,
+                eventClick: deleteEvent, // Ajout de l'événement de suppression
                 selectable: "slot",
                 selectOverlap: true,
                 dateClick: function (info) {
@@ -246,7 +246,35 @@
                         event.revert();
                     });
             }
+
+            function deleteEvent(info) {
+                if (confirm("Êtes-vous sûr de vouloir supprimer cet événement ?")) {
+                    fetch('{{ path('admin_events_delete') }}', {
+                        method: 'POST',
+                        body: JSON.stringify({ id: info.event.id }),
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Failed to delete event');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            console.log(data);
+                            // Recharger la page
+                            location.reload();
+                        })
+                        .catch(error => {
+                            console.error(error);
+                        });
+                }
+            }
+
             // Function to reload events
+            // Fonction pour supprimer un événement
             function reloadEvents() {
                 calendar.refetchEvents();
             }
