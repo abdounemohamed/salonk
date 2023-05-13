@@ -236,6 +236,7 @@
             }
 
             function deleteEvent(info) {
+                console.log(info)
                 if (confirm("Êtes-vous sûr de vouloir supprimer cet événement ?")) {
                     fetch('{{ path('admin_events_delete') }}', {
                         method: 'POST',
