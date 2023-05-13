@@ -91,9 +91,9 @@ class AppointmentManager
         $numPeoplePerHour = 2;
         $reservationDuration = 3600 / $numPeoplePerHour;
 
-        $availableSlots = array();
+        $availableSlots = [];
 
-        $formattedDay = (new \DateTime($day))->format("l"); // Convert the date to the day of the week (Monday, Tuesday, etc.)
+        $formattedDay = (new \DateTime($day))->format("l"); // Convertir la date en jour de la semaine (lundi, mardi, etc.)
 
         if (array_key_exists($formattedDay, $slotsByDay)) {
             $slots = $slotsByDay[$formattedDay];
@@ -105,6 +105,12 @@ class AppointmentManager
                 $endTime = strtotime($endTimeStr);
 
                 for ($time = $startTime; $time < $endTime; $time += $reservationDuration) {
+                    // Skip the time range between 13:00 and 14:00 on Fridays
+                    if ($formattedDay === "Friday" && date("H:i", $time) === "13:00") {
+                        $time += 7200;
+                        continue;
+                    }
+
                     $slotStartTimeStr = date('H:i', $time);
                     $slotEndTimeStr = date('H:i', ($time + $reservationDuration));
                     $slot = $slotStartTimeStr . '-' . $slotEndTimeStr;
@@ -131,6 +137,7 @@ class AppointmentManager
         }
 
         return $availableSlots;
+
 
     }
 
