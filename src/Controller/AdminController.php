@@ -87,7 +87,6 @@ class AdminController extends AbstractController
             $arrayTemp['start'] = $start;
             $arrayTemp['end'] = $end;
             $arrayTemp['allDays'] = false;
-            $arrayTemp['type'] = 'rdv';
             $arrayTemp['description'] = $appointment->getClient()->getFirstName() . '.' . $appointment->getClient()->getLastname() . ' ' . $appointment->getClient()->getPhone();
             $results[] = $arrayTemp;
         }
@@ -105,7 +104,6 @@ class AdminController extends AbstractController
             $arrayTemp['end'] = $end;
             $arrayTemp['allDays'] = true;
             $arrayTemp['description'] = 'Congé';
-            $arrayTemp['type'] = 'conge';
             $results[] = $arrayTemp;
         }
 
@@ -205,11 +203,11 @@ class AdminController extends AbstractController
 
         if ($data){
             if (str_starts_with($data->id, "c_")){
-                $event = $appointmentRepository->find(str_replace("c_", "", $data->id));
-                $appointmentRepository->remove($event, true);
-            }else{
                 $event = $notAvailableSlotsRepository->find($data->id);
                 $notAvailableSlotsRepository->remove($event, true);
+            }else{
+                $event = $appointmentRepository->find(str_replace("c_", "", $data->id));
+                $appointmentRepository->remove($event, true);
             }
 
             return $this->json(['ok' => true]);
