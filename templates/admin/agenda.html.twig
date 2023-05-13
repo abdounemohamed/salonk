@@ -67,27 +67,9 @@
                 //affichage de block event
                 eventContent: function (arg) {
                     let eventTitle = arg.event.title;
-                    let eventDescription = arg.event.extendedProps.description;
                     let eventContent = document.createElement('div');
-                    eventContent.textContent = eventTitle + ' ' + eventDescription;
+                    eventContent.textContent = eventTitle;
                     return { domNodes: [eventContent] };
-                },
-                //tooltip
-                eventDidMount: function (info) {
-                    let tooltip = new bootstrap.Tooltip(info.el, {
-                        title: info.event.extendedProps.description,
-                        placement: 'top',
-                        trigger: 'manual', // on passe trigger à "manual"
-                        container: 'body'
-                    });
-
-                    info.el.addEventListener('click', function () {
-                        tooltip.show(); // on affiche le tooltip au clic
-                    });
-
-                    info.el.addEventListener('mouseleave', function () {
-                        tooltip.hide(); // on cache le tooltip lorsque la souris quitte l'élément
-                    });
                 },
 
                 // add event and selectable
