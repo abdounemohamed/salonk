@@ -91,41 +91,46 @@ class AppointmentManager
 
         $availableSlots = array();
 
-        $slots = $slotsByDay[$day];
+        $formattedDay = (new \DateTime($day))->format("l"); // Convertir la date en jour de la semaine (lundi, mardi, etc.)
 
-        foreach ($slots as $slot) {
-            list($startTimeStr, $endTimeStr) = explode('-', $slot);
+        if (array_key_exists($formattedDay, $slotsByDay)) {
+            $slots = $slotsByDay[$formattedDay];
 
-            $startTime = strtotime($startTimeStr);
-            $endTime = strtotime($endTimeStr);
+            foreach ($slots as $slot) {
+                list($startTimeStr, $endTimeStr) = explode('-', $slot);
 
-            for ($time = $startTime; $time < $endTime; $time += $reservationDuration) {
-                $slotStartTimeStr = date('H:i', $time);
-                $slotEndTimeStr = date('H:i', ($time + $reservationDuration));
-                $slot = $slotStartTimeStr . '-' . $slotEndTimeStr;
+                $startTime = strtotime($startTimeStr);
+                $endTime = strtotime($endTimeStr);
 
-                // Check if the slot is not already booked for this day
-                $notAvailableSlots = $this->getUsedSlots($day);
-                if (in_array($slot, $notAvailableSlots)) {
-                    continue; // Skip this slot
-                }
+                for ($time = $startTime; $time < $endTime; $time += $reservationDuration) {
+                    $slotStartTimeStr = date('H:i', $time);
+                    $slotEndTimeStr = date('H:i', ($time + $reservationDuration));
+                    $slot = $slotStartTimeStr . '-' . $slotEndTimeStr;
 
-                // Check if the slot is not within a time range marked as "congé"
-                $congeRanges = $this->getCongeRanges($day);
-                foreach ($congeRanges as $congeRange) {
-                    $congeStart = strtotime($congeRange['start_time']);
-                    $congeEnd = strtotime($congeRange['end_time']);
-                    if ($time >= $congeStart && $time + $reservationDuration <= $congeEnd) {
-                        continue 2; // Skip this slot and move to the next time range
+                    // Check if the slot is not already booked for this day
+                    $notAvailableSlots = $this->getUsedSlots($day);
+                    if (in_array($slot, $notAvailableSlots)) {
+                        continue; // Skip this slot
                     }
-                }
 
-                $availableSlots[] = $slot;
+                    // Check if the slot is not within a time range marked as "congé"
+                    $congeRanges = $this->getCongeRanges($day);
+                    foreach ($congeRanges as $congeRange) {
+                        $congeStart = strtotime($congeRange['start_time']);
+                        $congeEnd = strtotime($congeRange['end_time']);
+                        if ($time >= $congeStart && $time + $reservationDuration <= $congeEnd) {
+                            continue 2; // Skip this slot and move to the next time range
+                        }
+                    }
+
+                    $availableSlots[] = $slot;
+                }
             }
         }
 
         return $availableSlots;
     }
+
 
     /**
      * @param string $day
