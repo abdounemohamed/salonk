@@ -80,9 +80,9 @@ class AppointmentManager
     public function getAvailableSlots2(string $day): array
     {
         $slotsByDay = array(
-            "lundi" => array("10:00-19:00"),
-            "mardi" => array("14:00-18:30"),
-            "mercredi" => array("14:00-18:30"),
+            "Monday" => array("10:00-19:00"),
+            "Tuesday" => array("14:00-18:30"),
+            "Wednesday" => array("14:00-18:30"),
             // Ajoutez les autres jours de la semaine avec leurs plages horaires
         );
 
