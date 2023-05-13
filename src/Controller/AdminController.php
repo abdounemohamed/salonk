@@ -144,7 +144,6 @@ class AdminController extends AbstractController
             $start = new \DateTime($data->start);
 
             $end = new \DateTime($data->end);
-            $end->add(new DateInterval('PT15M'));
 
             $appointment->setDate($start);
             $appointment->setSlot($start->format('H:i') . '-' . $end->format('H:i'));
