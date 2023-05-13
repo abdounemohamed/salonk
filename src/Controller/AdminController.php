@@ -202,7 +202,7 @@ class AdminController extends AbstractController
     ): JsonResponse
     {
         $data = json_decode($request->getContent());
-
+        dd($data);
         if ($data){
             if($data->type === "rdv"){
                 $event = $appointmentRepository->find($data->id);
