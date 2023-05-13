@@ -74,10 +74,11 @@
                 //delete btn
                 eventDidMount: function (info) {
                     // Créer le bouton de suppression avec les classes Bootstrap
-                    let icon = document.createElement('span');
+                    let deleteButton = document.createElement('button');
+                    deleteButton.classList.add('btn', 'btn-sm', 'btn-danger'); // Ajoutez les classes Bootstrap pour un petit bouton rouge
+                    let icon = document.createElement('i');
                     icon.classList.add('bi', 'bi-trash'); // Utilisez la classe d'icône Bootstrap "bi" et la classe "bi-trash" pour l'icône de la corbeille
-                    icon.style.marginLeft = '5px'; // Ajoutez une marge à gauche pour l'espace entre l'icône et le texte
-                    info.el.insertBefore(icon, info.el.firstChild); // Insérez
+                    deleteButton.appendChild(icon);
 
                     // Ajouter un événement de clic sur le bouton de suppression
                     deleteButton.addEventListener('click', function (event) {
