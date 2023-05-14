@@ -130,7 +130,7 @@
                                 data: {term: request.term},
                                 success: function (data) {
                                     console.log(data);
-                                    let suggestions = data.map(item => ({label: item, value: item}));
+                                    let suggestions = data.map(item => ({label: item.lname, value: fname}));
                                     response(suggestions);
                                 }
                             });
