@@ -137,7 +137,9 @@
                                 success: function (data) {
                                     let suggestions = data.map(item => ({
                                         label: item.lname + ' ' + item.fname,
-                                        value: item.lname + ' ' + item.fname
+                                        value: item.lname + ' ' + item.fname,
+                                        lname: item.lname,
+                                        fname: item.fname
                                     }));
                                     response(suggestions);
                                 }
@@ -145,10 +147,9 @@
                         },
                         minLength: 2, // Définir le nombre minimum de caractères avant de déclencher l'autocomplétion
                         select: function (event, ui) {
-                            // Remplir les champs firstname et lastname avec les valeurs appropriées après la sélection du téléphone
                             const selectedPhone = ui.item.value;
-                            const selectedFirstname = "Valeur du prénom correspondante"; // Remplacez par la logique pour récupérer la valeur du prénom correspondante depuis le serveur
-                            const selectedLastname = "Valeur du nom de famille correspondante"; // Remplacez par la logique pour récupérer la valeur du nom de famille correspondante depuis le serveur
+                            const selectedFirstname = ui.item.fname;
+                            const selectedLastname = ui.item.lname;
 
                             firstnameInput.val(selectedFirstname);
                             lastnameInput.val(selectedLastname);
