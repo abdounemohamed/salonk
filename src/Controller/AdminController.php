@@ -121,8 +121,16 @@ class AdminController extends AbstractController
     public function addEvents(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
         $data = json_decode($request->getContent());
+        if (
+            $data->phone == "" ||
+            $data->title == ""||
+            $data->firstname == "" ||
+            $data->lastname == ""
+        ){
+            return $this->json(['ok' => false]);
+        }
 
-        if ($data->title !== null && $data->title === 'rdv') {
+        if ($data->title === 'rdv') {
             //find client by number
             $client = $entityManager->getRepository(Client::class)->findOneBy(['phone' => $data->phone]);
             if (!$client instanceof Client) {
@@ -152,11 +160,10 @@ class AdminController extends AbstractController
             $appointment->setEnd($end->format('H:i'));
             $entityManager->persist($appointment);
 
-
             $entityManager->flush();
 
             return $this->json(['ok' => true]);
-        } elseif ($data->title !== null && $data->title === 'off') {
+        } elseif ($data->title === 'off') {
             $off = new NotAvailableSlots();
             $off->setStart(new \DateTimeImmutable($data->start));
             $off->setEnd(new \DateTimeImmutable($data->end));
