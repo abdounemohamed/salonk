@@ -121,7 +121,7 @@ class AdminController extends AbstractController
     public function addEvents(Request $request, EntityManagerInterface $entityManager): JsonResponse
     {
         $data = json_decode($request->getContent());
-        $data->title = 'rdv';
+
         if ($data->title !== null && $data->title === 'rdv') {
             //find client by number
             $client = $entityManager->getRepository(Client::class)->findOneBy(['phone' => $data->phone]);

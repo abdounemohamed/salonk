@@ -179,14 +179,13 @@
                         event.preventDefault();
 
                         // Récupérer les valeurs des champs du formulaire
-                        let type = typeSelect.value;
                         let lastname = lastnameInput.value;
                         let firstname = lastnameInput.value;
                         let phone = phoneInput.value;
 
                         // Créer l'événement
                         let eventData = {
-                            title: type,
+                            title: 'rdv',
                             start: slotStart,
                             end: slotEnd,
                             allDay: false, // set to false if you want to create a timed event
