@@ -32,6 +32,43 @@
         $(document).ready(function () {
             let calendarElt = document.querySelector("#calendar");
             let isPopupOpen = false; // Variable pour suivre l'état de la popup
+
+            //autocomplete
+            // Sélectionner les champs d'entrée pour le téléphone, le prénom et le nom de famille
+            let phoneInput = document.getElementById("phone-input");
+            let firstnameInput = document.getElementById("firstname-input");
+            let lastnameInput = document.getElementById("lastname-input");
+
+            // Configurer l'autocomplétion pour le champ de téléphone
+            $(phoneInput).autocomplete({
+                source: function (request, response) {
+                    // Effectuer une requête AJAX pour récupérer les suggestions d'autocomplétion depuis le serveur
+                    $.ajax({
+                        url: "URL_DE_LA_SOURCE_DE_DONNÉES",
+                        data: { term: request.term },
+                        success: function (data) {
+                            // Traiter les données renvoyées par le serveur
+                            // et les formater dans un tableau d'objets avec les propriétés label et value
+                            let suggestions = data.map(item => ({ label: item, value: item }));
+
+                            // Appeler la fonction de réponse avec les suggestions
+                            response(suggestions);
+                        }
+                    });
+                },
+                minLength: 2, // Définir le nombre minimum de caractères avant de déclencher l'autocomplétion
+                select: function (event, ui) {
+                    // Remplir les champs firstname et lastname avec les valeurs appropriées après la sélection du téléphone
+                    const selectedPhone = ui.item.value;
+                    const selectedFirstname = "Valeur du prénom correspondante"; // Remplacez par la logique pour récupérer la valeur du prénom correspondante depuis le serveur
+                    const selectedLastname = "Valeur du nom de famille correspondante"; // Remplacez par la logique pour récupérer la valeur du nom de famille correspondante depuis le serveur
+
+                    firstnameInput.value = selectedFirstname;
+                    lastnameInput.value = selectedLastname;
+                }
+            });
+
+
             let calendar = new FullCalendar.Calendar(calendarElt, {
                 initialView: 'timeGridDay',
                 locale: 'fr',
