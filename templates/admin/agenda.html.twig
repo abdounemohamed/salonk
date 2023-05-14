@@ -224,16 +224,14 @@
             // Configurer l'autocomplétion pour le champ de téléphone
             phoneInput.autocomplete({
                 source: function (request, response) {
+                    console.log('ddd');
                     // Effectuer une requête AJAX pour récupérer les suggestions d'autocomplétion depuis le serveur
                     $.ajax({
                         url: "{{ path('ajax_autocomplete') }}",
                         data: {term: request.term},
                         success: function (data) {
-                            // Traiter les données renvoyées par le serveur
-                            // et les formater dans un tableau d'objets avec les propriétés label et value
+                            console.log(data)
                             let suggestions = data.map(item => ({label: item, value: item}));
-
-                            // Appeler la fonction de réponse avec les suggestions
                             response(suggestions);
                         }
                     });
