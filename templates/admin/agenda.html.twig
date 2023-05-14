@@ -105,29 +105,27 @@
                             <option value="off">Congés</option>
                         `;
                     form.appendChild(typeSelect);
-
                     // Ajouter les champs nom et téléphone
-                    let firstnameInput = document.createElement("input");
-                    firstnameInput.id = "firstname-input";
-                    firstnameInput.name = "firstname";
-                    firstnameInput.placeholder = "Nom";
-                    firstnameInput.classList.add("form-control", "mb-3");
-                    form.appendChild(firstnameInput);
-                    let lastnameInput = document.createElement("input");
-                    lastnameInput.id = "lastname-input";
-                    lastnameInput.name = "lastname";
-                    lastnameInput.placeholder = "Prénom";
-                    lastnameInput.classList.add("form-control", "mb-3");
-                    form.appendChild(lastnameInput);
-
                     let phoneInput = document.createElement("input");
                     phoneInput.id = "phone-input";
                     phoneInput.name = "phone";
                     phoneInput.placeholder = "Numéro de téléphone";
                     phoneInput.classList.add("form-control", "mb-3");
                     form.appendChild(phoneInput);
+                    let lastnameInput = document.createElement("input");
+                    lastnameInput.id = "lastname-input";
+                    lastnameInput.name = "lastname";
+                    lastnameInput.placeholder = "Prénom";
+                    lastnameInput.classList.add("form-control", "mb-3");
+                    form.appendChild(lastnameInput);
+                    let firstnameInput = document.createElement("input");
+                    firstnameInput.id = "firstname-input";
+                    firstnameInput.name = "firstname";
+                    firstnameInput.placeholder = "Nom";
+                    firstnameInput.classList.add("form-control", "mb-3");
+                    form.appendChild(firstnameInput);
 
-                    //
+                    //autocomplete
                     $(phoneInput).autocomplete({
                         source: function (request, response) {
                             // Effectuer une requête AJAX pour récupérer les suggestions d'autocomplétion depuis le serveur
