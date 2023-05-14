@@ -41,12 +41,12 @@ class ClientRepository extends ServiceEntityRepository
 
     /**
      * @param string $term
-     * @return float|int|mixed|string
+     * @return mixed
      */
-    public function findAutocomleteData(string $term)
+    public function findAutocomleteData(string $term): mixed
     {
         return $this->createQueryBuilder('c')
-            ->where('c.numero LIKE :term')
+            ->where('c.phone LIKE :term')
             ->setParameter('term', $term."%" )
             ->getQuery()
             ->getResult();
