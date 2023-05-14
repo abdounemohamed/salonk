@@ -121,6 +121,34 @@
                     phoneInput.classList.add("form-control", "mb-3");
                     form.appendChild(phoneInput);
 
+                    //
+                    phoneInput.autocomplete({
+                        source: function (request, response) {
+                            console.log('ddd');
+                            // Effectuer une requête AJAX pour récupérer les suggestions d'autocomplétion depuis le serveur
+                            $.ajax({
+                                url: "{{ path('ajax_autocomplete') }}",
+                                data: {term: request.term},
+                                success: function (data) {
+                                    console.log(data)
+                                    let suggestions = data.map(item => ({label: item, value: item}));
+                                    response(suggestions);
+                                }
+                            });
+                        },
+                        minLength: 2, // Définir le nombre minimum de caractères avant de déclencher l'autocomplétion
+                        select: function (event, ui) {
+                            // Remplir les champs firstname et lastname avec les valeurs appropriées après la sélection du téléphone
+                            const selectedPhone = ui.item.value;
+                            const selectedFirstname = "Valeur du prénom correspondante"; // Remplacez par la logique pour récupérer la valeur du prénom correspondante depuis le serveur
+                            const selectedLastname = "Valeur du nom de famille correspondante"; // Remplacez par la logique pour récupérer la valeur du nom de famille correspondante depuis le serveur
+
+                            firstnameInput.val(selectedFirstname);
+                            lastnameInput.val(selectedLastname);
+                        }
+                    });
+                    //
+
                     // Ajouter le bouton "Ajouter"
                     let submitButton = document.createElement("input");
                     submitButton.type = "submit";
@@ -209,37 +237,6 @@
 
             });
 
-            // Sélectionner les champs d'entrée pour le téléphone, le prénom et le nom de famille
-            let phoneInput = $("#phone-input");
-            let firstnameInput = $("#firstname-input");
-            let lastnameInput = $("#lastname-input");
-
-            // Configurer l'autocomplétion pour le champ de téléphone
-            phoneInput.autocomplete({
-                source: function (request, response) {
-                    console.log('ddd');
-                    // Effectuer une requête AJAX pour récupérer les suggestions d'autocomplétion depuis le serveur
-                    $.ajax({
-                        url: "{{ path('ajax_autocomplete') }}",
-                        data: {term: request.term},
-                        success: function (data) {
-                            console.log(data)
-                            let suggestions = data.map(item => ({label: item, value: item}));
-                            response(suggestions);
-                        }
-                    });
-                },
-                minLength: 2, // Définir le nombre minimum de caractères avant de déclencher l'autocomplétion
-                select: function (event, ui) {
-                    // Remplir les champs firstname et lastname avec les valeurs appropriées après la sélection du téléphone
-                    const selectedPhone = ui.item.value;
-                    const selectedFirstname = "Valeur du prénom correspondante"; // Remplacez par la logique pour récupérer la valeur du prénom correspondante depuis le serveur
-                    const selectedLastname = "Valeur du nom de famille correspondante"; // Remplacez par la logique pour récupérer la valeur du nom de famille correspondante depuis le serveur
-
-                    firstnameInput.val(selectedFirstname);
-                    lastnameInput.val(selectedLastname);
-                }
-            });
 
             function updateEvent(event) {
                 // update the event with the new dates
