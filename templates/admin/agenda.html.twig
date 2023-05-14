@@ -122,7 +122,7 @@
                     form.appendChild(phoneInput);
 
                     //
-                    phoneInput.autocomplete({
+                    $(phoneInput).autocomplete({
                         source: function (request, response) {
                             console.log('ddd');
                             // Effectuer une requête AJAX pour récupérer les suggestions d'autocomplétion depuis le serveur
