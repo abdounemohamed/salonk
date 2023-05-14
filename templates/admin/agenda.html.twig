@@ -127,10 +127,9 @@
                                 success: function (data) {
                                     let suggestions = data.map(item => ({
                                         label: item.lname + ' ' + item.fname,
-                                        value: item.lname + ' ' + item.fname,
+                                        value: item.phone,
                                         lname: item.lname,
                                         fname: item.fname,
-                                        phone: item.phone
                                     }));
                                     response(suggestions);
                                 }
