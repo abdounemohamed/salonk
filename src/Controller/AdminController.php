@@ -217,8 +217,19 @@ class AdminController extends AbstractController
     }
 
     #[Route('/ajax/autocomplete', name: 'ajax_autocomplete')]
-    public function autocomplete(Request $request)
+    public function autocomplete(Request $request, ClientRepository $clientRepository)
     {
-        dd($request->getContent());
+        $term = $request->query->get('term');
+        $results = [];
+        if (strlen($term)  >= 3){
+            $data = $clientRepository->findAutocomleteData($term);
+            foreach ($data as $client){
+                if ($client instanceof Client){
+                    $results[] = ['lname' => $client->getLastname(), 'fname' => $client->getFirstname(), 'number' => $client->getPhone()];
+                }
+            }
+        }
+
+        return $this->json($results);
     }
 }

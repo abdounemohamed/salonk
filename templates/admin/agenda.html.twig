@@ -124,13 +124,12 @@
                     //
                     $(phoneInput).autocomplete({
                         source: function (request, response) {
-                            console.log('ddd');
                             // Effectuer une requête AJAX pour récupérer les suggestions d'autocomplétion depuis le serveur
                             $.ajax({
                                 url: "{{ path('ajax_autocomplete') }}",
                                 data: {term: request.term},
                                 success: function (data) {
-                                    console.log(data)
+                                    console.log(data);
                                     let suggestions = data.map(item => ({label: item, value: item}));
                                     response(suggestions);
                                 }
