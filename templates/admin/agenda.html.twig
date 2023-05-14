@@ -145,14 +145,15 @@
                                 }
                             });
                         },
-                        minLength: 2, // Définir le nombre minimum de caractères avant de déclencher l'autocomplétion
+                        minLength: 3, // Définir le nombre minimum de caractères avant de déclencher l'autocomplétion
                         select: function (event, ui) {
                             const selectedPhone = ui.item.value;
                             const selectedFirstname = ui.item.fname;
                             const selectedLastname = ui.item.lname;
 
-                            firstnameInput.val(selectedFirstname);
-                            lastnameInput.val(selectedLastname);
+                            // Remplir les champs firstname et lastname avec les valeurs de la suggestion sélectionnée
+                            $("#firstname-input").val(selectedFirstname);
+                            $("#lastname-input").val(selectedLastname);
                         }
                     });
                     //
