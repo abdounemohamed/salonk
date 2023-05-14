@@ -129,7 +129,8 @@
                                         label: item.lname + ' ' + item.fname,
                                         value: item.lname + ' ' + item.fname,
                                         lname: item.lname,
-                                        fname: item.fname
+                                        fname: item.fname,
+                                        phone: item.phone
                                     }));
                                     response(suggestions);
                                 }
@@ -137,7 +138,7 @@
                         },
                         minLength: 3, // Définir le nombre minimum de caractères avant de déclencher l'autocomplétion
                         select: function (event, ui) {
-                            const selectedPhone = ui.item.value;
+                            const selectedPhone = ui.item.phone;
                             const selectedFirstname = ui.item.fname;
                             const selectedLastname = ui.item.lname;
 
@@ -207,7 +208,6 @@
                                 return response.json();
                             })
                             .then(data => {
-                                console.log(data);
                                 // Masquer la pop-up
                                 popover.hide();
                                 isPopupOpen = false;
