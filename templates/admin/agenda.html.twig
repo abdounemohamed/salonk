@@ -135,7 +135,6 @@
                                 url: "{{ path('ajax_autocomplete') }}",
                                 data: {term: request.term},
                                 success: function (data) {
-                                    console.log(data);
                                     let suggestions = data.map(item => ({label: item.lname, value: item.lname}, {label: item.fname, value: item.fname}));
                                     response(suggestions);
                                 }
