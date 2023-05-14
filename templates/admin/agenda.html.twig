@@ -135,11 +135,10 @@
                                 url: "{{ path('ajax_autocomplete') }}",
                                 data: {term: request.term},
                                 success: function (data) {
-                                    let suggestions = [];
-                                    data.forEach(item => {
-                                        suggestions.push({label: item.lname, value: item.lname});
-                                        suggestions.push({label: item.fname, value: item.fname});
-                                    });
+                                    let suggestions = data.map(item => ({
+                                        label: item.lname + ' ' + item.fname,
+                                        value: item.lname + ' ' + item.fname
+                                    }));
                                     response(suggestions);
                                 }
                             });
