@@ -97,14 +97,6 @@
                     // Créer le formulaire de sélection du type d'événement
                     let form = document.createElement("form");
                     form.classList.add("p-3");
-                    let typeSelect = document.createElement("select");
-                    typeSelect.id = "type-select";
-                    typeSelect.classList.add("form-select", "mb-3");
-                    typeSelect.innerHTML = `
-                            <option value="rdv">RDV</option>
-                            <option value="off">Congés</option>
-                        `;
-                    form.appendChild(typeSelect);
                     // Ajouter les champs nom et téléphone
                     let phoneInput = document.createElement("input");
                     phoneInput.id = "phone-input";
