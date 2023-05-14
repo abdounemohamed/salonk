@@ -49,7 +49,7 @@
                 source: function (request, response) {
                     // Effectuer une requête AJAX pour récupérer les suggestions d'autocomplétion depuis le serveur
                     $.ajax({
-                        url: "URL_DE_LA_SOURCE_DE_DONNÉES",
+                        url: "{{ path('ajax_autocomplete') }}",
                         data: {term: request.term},
                         success: function (data) {
                             // Traiter les données renvoyées par le serveur

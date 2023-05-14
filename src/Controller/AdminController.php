@@ -82,7 +82,7 @@ class AdminController extends AbstractController
 
             $arrayTemp = [];
             $arrayTemp['id'] = $appointment->getId();
-            $arrayTemp['title'] = $appointment->getClient()->getFirstName() . '.' . $appointment->getClient()->getLastname() ;
+            $arrayTemp['title'] = $appointment->getClient()->getFirstName() . ' ' . $appointment->getClient()->getLastname() ;
             $arrayTemp['color'] = "#dc392d";
             $arrayTemp['start'] = $start;
             $arrayTemp['end'] = $end;
@@ -214,5 +214,11 @@ class AdminController extends AbstractController
         }
 
         return $this->json(['ok' => false]);
+    }
+
+    #[Route('/ajax/autocomplete', name: 'ajax_autocomplete')]
+    public function autocomplete(Request $request)
+    {
+        dd($request->getContent());
     }
 }
