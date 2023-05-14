@@ -3,6 +3,12 @@
 
 {% block stylesheets %}
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <style>
+        .ui-autocomplete {
+            z-index: 9999;
+        }
+    </style>
 {% endblock %}
 
 {% block body %}
@@ -167,7 +173,8 @@
                         content: form,
                         html: true,
                         placement: "top",
-                        trigger: "manual"
+                        trigger: "manual",
+                        container: "body",
                     });
 
                     // Afficher la pop-up
