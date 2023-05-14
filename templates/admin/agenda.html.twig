@@ -1,6 +1,10 @@
 {% extends 'base_admin.html.twig' %}
 {% block title %}Calendrier{% endblock %}
 
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+{% endblock %}
+
 {% block body %}
     {% include('admin/sidebar.html.twig') %}
     <div class="page-wrapper">
@@ -27,6 +31,7 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.4/index.global.min.js"
             integrity="sha256-z82jYOK/utiAteR0z6FjIOQmdWzvxqXJ6wsXbGJkBwY=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -45,11 +50,11 @@
                     // Effectuer une requête AJAX pour récupérer les suggestions d'autocomplétion depuis le serveur
                     $.ajax({
                         url: "URL_DE_LA_SOURCE_DE_DONNÉES",
-                        data: { term: request.term },
+                        data: {term: request.term},
                         success: function (data) {
                             // Traiter les données renvoyées par le serveur
                             // et les formater dans un tableau d'objets avec les propriétés label et value
-                            let suggestions = data.map(item => ({ label: item, value: item }));
+                            let suggestions = data.map(item => ({label: item, value: item}));
 
                             // Appeler la fonction de réponse avec les suggestions
                             response(suggestions);
@@ -106,7 +111,7 @@
                     let eventTitle = arg.event.title;
                     let eventContent = document.createElement('div');
                     eventContent.textContent = eventTitle;
-                    return { domNodes: [eventContent] };
+                    return {domNodes: [eventContent]};
                 },
                 // add event and selectable
                 editable: true,
@@ -276,7 +281,7 @@
                 if (confirm("Êtes-vous sûr de vouloir supprimer cet événement ?")) {
                     fetch('{{ path('admin_events_delete') }}', {
                         method: 'POST',
-                        body: JSON.stringify({ id: info.event.id }),
+                        body: JSON.stringify({id: info.event.id}),
                         headers: {
                             'Content-Type': 'application/json'
                         }
